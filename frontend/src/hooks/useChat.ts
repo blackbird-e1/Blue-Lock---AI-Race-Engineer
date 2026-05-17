@@ -1,187 +1,126 @@
-import { useState, useCallback, useRef } from 'react';
-import type { Message, Role, StreamChunk } from '../types';
+import { useState, useCallback } from 'react';
+import type { Message } from '../types';
 
 function generateId(): string {
   return Math.random().toString(36).slice(2, 11);
 }
 
+interface UploadResponse {
+  session_id: string;
+  rows_processed: number;
+  issues_detected: string[];
+  summary: string;
+}
+
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [activeToolCall, setActiveToolCall] = useState<string | null>(null);
-  const conversationId = useRef<string | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [summary, setSummary] = useState<string | null>(null);
+  const [issues, setIssues] = useState<string[]>([]);
+
+  const uploadTelemetry = useCallback(async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.detail || 'Upload failed');
+      }
+
+      const data: UploadResponse = await response.json();
+
+      setSessionId(data.session_id);
+      setSummary(data.summary);
+      setIssues(data.issues_detected);
+
+      return data;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   const sendMessage = useCallback(async (content: string) => {
-    if (!content.trim() || isLoading) return;
-
-    const trimmed = content.trim();
+    if (!sessionId || !content.trim() || isLoading) return;
 
     const userMessage: Message = {
       id: generateId(),
       role: 'user',
-      content: trimmed,
+      content,
       timestamp: new Date(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
-    setActiveToolCall(null);
-
-    const assistantId = generateId();
-    let streamingStarted = false;
 
     try {
-      const history = messages.map((m) => ({ role: m.role as Role, content: m.content }));
-
-      const response = await fetch('/api/v1/chat/stream', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/chat`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
-          message: trimmed,
-          history,
-          conversation_id: conversationId.current ?? undefined,
+          session_id: sessionId,
+          message: content,
         }),
       });
 
       if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
+        const err = await response.json();
+        throw new Error(err.detail || 'Chat failed');
       }
 
-      if (!response.body) {
-        throw new Error('No response stream available.');
-      }
+      const data = await response.json();
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
+      const assistantMessage: Message = {
+        id: generateId(),
+        role: 'assistant',
+        content: data.answer,
+        timestamp: new Date(),
+      };
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop() ?? '';
-
-        for (const line of lines) {
-          if (!line.startsWith('data: ')) continue;
-
-          let chunk: StreamChunk;
-          try {
-            chunk = JSON.parse(line.slice(6));
-          } catch {
-            continue;
-          }
-
-          if (chunk.type === 'delta') {
-            if (!streamingStarted) {
-              streamingStarted = true;
-              setIsLoading(false);
-              setActiveToolCall(null);
-              setMessages((prev) => [
-                ...prev,
-                {
-                  id: assistantId,
-                  role: 'assistant',
-                  content: chunk.content,
-                  timestamp: new Date(),
-                  streaming: true,
-                  toolCalls: [],
-                },
-              ]);
-            } else {
-              setMessages((prev) =>
-                prev.map((m) =>
-                  m.id === assistantId
-                    ? { ...m, content: m.content + chunk.content }
-                    : m
-                )
-              );
-            }
-          } else if (chunk.type === 'tool_call') {
-            const toolName = chunk.tool_name ?? 'tool';
-            setActiveToolCall(toolName);
-            // Append tool name to the streaming message once it exists
-            if (streamingStarted) {
-              setMessages((prev) =>
-                prev.map((m) =>
-                  m.id === assistantId
-                    ? { ...m, toolCalls: [...(m.toolCalls ?? []), toolName] }
-                    : m
-                )
-              );
-            }
-          } else if (chunk.type === 'done') {
-            if (chunk.conversation_id) {
-              conversationId.current = chunk.conversation_id;
-            }
-            setActiveToolCall(null);
-            setMessages((prev) =>
-              prev.map((m) =>
-                m.id === assistantId ? { ...m, streaming: false } : m
-              )
-            );
-          } else if (chunk.type === 'error') {
-            setActiveToolCall(null);
-            if (streamingStarted) {
-              setMessages((prev) =>
-                prev.map((m) =>
-                  m.id === assistantId
-                    ? { ...m, content: chunk.content, streaming: false, error: true }
-                    : m
-                )
-              );
-            } else {
-              setMessages((prev) => [
-                ...prev,
-                {
-                  id: assistantId,
-                  role: 'assistant',
-                  content: chunk.content,
-                  timestamp: new Date(),
-                  error: true,
-                },
-              ]);
-            }
-            setIsLoading(false);
-          }
-        }
-      }
+      setMessages((prev) => [...prev, assistantMessage]);
     } catch (err) {
-      setActiveToolCall(null);
-      const errorContent =
-        err instanceof Error ? err.message : 'Something went wrong. Please try again.';
+      const errorMessage: Message = {
+        id: generateId(),
+        role: 'assistant',
+        content:
+          err instanceof Error
+            ? err.message
+            : 'Something went wrong.',
+        timestamp: new Date(),
+        error: true,
+      };
 
-      if (streamingStarted) {
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === assistantId
-              ? { ...m, content: errorContent, streaming: false, error: true }
-              : m
-          )
-        );
-      } else {
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: assistantId,
-            role: 'assistant',
-            content: errorContent,
-            timestamp: new Date(),
-            error: true,
-          },
-        ]);
-      }
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
-  }, [messages, isLoading]);
+  }, [sessionId, isLoading]);
 
   const clearMessages = useCallback(() => {
     setMessages([]);
-    conversationId.current = null;
-    setActiveToolCall(null);
+    setSessionId(null);
+    setSummary(null);
+    setIssues([]);
   }, []);
 
-  return { messages, isLoading, activeToolCall, sendMessage, clearMessages };
+  return {
+    messages,
+    isLoading,
+    sendMessage,
+    clearMessages,
+    uploadTelemetry,
+    sessionId,
+    summary,
+    issues,
+  };
 }
