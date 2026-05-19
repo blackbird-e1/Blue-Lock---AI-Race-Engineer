@@ -3,11 +3,17 @@ import { useRef } from 'react';
 interface WelcomeScreenProps {
   onUpload: (file: File) => Promise<unknown>;
   isLoading: boolean;
+  mode: 'single' | 'compare' | null;
+  setMode: (mode: 'single' | 'compare') => void;
+  uploadedCount: number;
 }
 
 export default function WelcomeScreen({
   onUpload,
   isLoading,
+  mode,
+  setMode,
+  uploadedCount,
 }: WelcomeScreenProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -22,6 +28,7 @@ export default function WelcomeScreen({
       await onUpload(file);
     } catch (err) {
       console.error(err);
+
       alert(
         err instanceof Error
           ? err.message
@@ -35,9 +42,11 @@ export default function WelcomeScreen({
       <div className="mb-10">
         <div className="flex items-center justify-center gap-2 mb-4">
           <div className="w-1.5 h-10 bg-[#e10600] rounded-sm" />
+
           <span className="text-white font-bold text-4xl tracking-tight">
             F1
           </span>
+
           <div className="w-1.5 h-10 bg-[#e10600] rounded-sm" />
         </div>
 
@@ -51,45 +60,68 @@ export default function WelcomeScreen({
         </p>
       </div>
 
-      <div className="w-full max-w-md">
-        <input
-          ref={inputRef}
-          type="file"
-          accept=".csv"
-          className="hidden"
-          onChange={handleFileChange}
-        />
+      <input
+        ref={inputRef}
+        type="file"
+        accept=".csv"
+        className="hidden"
+        onChange={handleFileChange}
+      />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-w-3xl">
+        <button
+          onClick={() => {
+            setMode('single');
+            inputRef.current?.click();
+          }}
+          disabled={isLoading}
+          className="bg-[#161616] border border-[#2e2e2e] hover:border-[#e10600] rounded-2xl p-6 text-left transition-all"
+        >
+          <h2 className="text-white text-xl font-semibold mb-2">
+            Analyze Session
+          </h2>
+
+          <p className="text-gray-400 text-sm">
+            Upload a single telemetry CSV and
+            receive AI race coaching insights.
+          </p>
+        </button>
 
         <button
-          onClick={() => inputRef.current?.click()}
+          onClick={() => {
+            setMode('compare');
+
+            if (uploadedCount < 2) {
+              inputRef.current?.click();
+            }
+          }}
           disabled={isLoading}
-          className="w-full bg-[#e10600] hover:bg-[#b30500] disabled:bg-[#3a1a1a] text-white font-medium py-4 rounded-2xl transition-colors cursor-pointer disabled:cursor-not-allowed"
+          className="bg-[#161616] border border-[#2e2e2e] hover:border-[#2563eb] rounded-2xl p-6 text-left transition-all"
         >
-          {isLoading
-            ? 'Uploading telemetry...'
-            : 'Upload Telemetry CSV'}
+          <h2 className="text-white text-xl font-semibold mb-2">
+            Compare Drivers
+          </h2>
+
+          <p className="text-gray-400 text-sm">
+            Upload two telemetry sessions and compare
+            driver performance side-by-side.
+          </p>
         </button>
       </div>
 
-      <div className="mt-10 max-w-lg">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="bg-[#1e1e1e] border border-[#2e2e2e] rounded-xl px-4 py-3 text-sm text-gray-400">
-            Analyze braking performance
-          </div>
-
-          <div className="bg-[#1e1e1e] border border-[#2e2e2e] rounded-xl px-4 py-3 text-sm text-gray-400">
-            Detect steering instability
-          </div>
-
-          <div className="bg-[#1e1e1e] border border-[#2e2e2e] rounded-xl px-4 py-3 text-sm text-gray-400">
-            Evaluate throttle usage
-          </div>
-
-          <div className="bg-[#1e1e1e] border border-[#2e2e2e] rounded-xl px-4 py-3 text-sm text-gray-400">
-            Get AI race coaching feedback
-          </div>
-        </div>
-      </div>
+      {mode && (
+        <p className="mt-6 text-sm text-gray-500">
+          {isLoading
+            ? 'Uploading telemetry...'
+            : mode === 'single'
+            ? 'Single session analysis selected.'
+            : uploadedCount === 0
+            ? 'Upload first telemetry session.'
+            : uploadedCount === 1
+            ? 'Upload second telemetry session.'
+            : 'Comparison complete.'}
+        </p>
+      )}
     </div>
   );
 }

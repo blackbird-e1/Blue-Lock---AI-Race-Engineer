@@ -17,35 +17,16 @@ export default function App() {
     summary,
     issues,
     comparisonResult,
-    startComparison,
-    isCompareMode,
+    mode,
+    setMode,
+    uploadedCount,
   } = useChat();
 
   const bottomRef = useRef<HTMLDivElement>(null);
-  const compareInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
-
-  async function handleCompareUpload(
-    e: React.ChangeEvent<HTMLInputElement>
-  ) {
-    const file = e.target.files?.[0];
-
-    if (!file) return;
-
-    try {
-      await uploadTelemetry(file);
-    } catch (err) {
-      console.error(err);
-      alert(
-        err instanceof Error
-          ? err.message
-          : 'Comparison failed.'
-      );
-    }
-  }
 
   return (
     <div className="flex flex-col h-full bg-[#0f0f0f]">
@@ -57,11 +38,18 @@ export default function App() {
         } />
 
       <main className="flex-1 overflow-y-auto">
-        {!sessionId ? (
-          <WelcomeScreen onUpload={uploadTelemetry} isLoading={isLoading} />
+        {!sessionId || (mode === 'compare' && uploadedCount < 2) ? (
+          <WelcomeScreen
+            onUpload={uploadTelemetry}
+            isLoading={isLoading}
+            mode={mode}
+            setMode={setMode}
+            uploadedCount={uploadedCount}
+          />
         ) : (
           <div className="max-w-3xl mx-auto py-6 px-4">
-            <div className="mb-6 bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
+            {!comparisonResult && (
+              <div className="mb-6 bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
               <h2 className="text-lg font-semibold text-white mb-3">
                 Telemetry Analysis
               </h2>
@@ -90,28 +78,8 @@ export default function App() {
                   </ul>
                 </div>
               )}
-
-              <input
-                ref={compareInputRef}
-                type="file"
-                accept=".csv"
-                className="hidden"
-                onChange={handleCompareUpload}
-              />
-
-              <button
-                onClick={() => {
-                  startComparison();
-                  compareInputRef.current?.click();
-                }}
-                disabled={isLoading || isCompareMode}
-                className="mt-5 w-full bg-[#2563eb] hover:bg-[#1d4ed8] disabled:bg-[#1e293b] text-white font-medium py-3 rounded-xl transition-colors"
-              >
-                {isCompareMode
-                  ? 'Waiting for comparison upload...'
-                  : 'Compare Another Session'}
-              </button>
-            </div>
+            </div>)
+            }
 
             {comparisonResult && (
               <div className="mb-6 bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
@@ -154,14 +122,15 @@ export default function App() {
         )}
       </main>
 
-      {sessionId && (
-        <div className="max-w-3xl mx-auto w-full">
-          <ChatInput
-            onSend={sendMessage}
-            isLoading={isLoading}
-          />
-        </div>
-      )}
+      {sessionId &&
+        !(mode === 'compare' && uploadedCount < 2) && (
+          <div className="max-w-3xl mx-auto w-full">
+            <ChatInput
+              onSend={sendMessage}
+              isLoading={isLoading}
+            />
+          </div>
+        )}
     </div>
   );
 }
