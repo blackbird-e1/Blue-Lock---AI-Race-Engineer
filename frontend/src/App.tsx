@@ -49,7 +49,12 @@ export default function App() {
 
   return (
     <div className="flex flex-col h-full bg-[#0f0f0f]">
-      <Header onClear={clearMessages} hasMessages={messages.length > 0} />
+      <Header onClear={clearMessages}
+        hasMessages={
+          messages.length > 0 ||
+          !!sessionId ||
+          !!comparisonResult
+        } />
 
       <main className="flex-1 overflow-y-auto">
         {!sessionId ? (
