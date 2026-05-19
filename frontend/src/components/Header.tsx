@@ -12,7 +12,7 @@ export default function Header({ onClear, hasMessages }: { onClear: () => void; 
         </div>
         <div className="h-5 w-px bg-[#2e2e2e]" />
         <span className="text-gray-400 text-sm font-medium tracking-wide uppercase">
-          AI Race Engineer
+          Blue Lock
         </span>
       </div>
 

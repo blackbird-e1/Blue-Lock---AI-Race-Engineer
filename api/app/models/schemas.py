@@ -20,3 +20,18 @@ class ChatResponse(BaseModel):
 
 class HealthResponse(BaseModel):
     status: Literal["ok"]
+
+class CompareRequest(BaseModel):
+    session_a: str
+    session_b: str
+
+
+class MetricComparison(BaseModel):
+    baseline: float
+    compared: float
+    delta_percent: float
+
+
+class CompareResponse(BaseModel):
+    summary: str
+    comparison: dict[str, MetricComparison]

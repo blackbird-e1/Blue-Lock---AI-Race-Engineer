@@ -12,6 +12,8 @@ from app.routers.chat import router as chat_router
 from app.routers.health import router as health_router
 from app.routers.upload import router as upload_router
 
+from app.routers.compare import router as compare_router
+
 
 logging.basicConfig(
     level=logging.DEBUG if not settings.is_production else logging.INFO,
@@ -52,6 +54,8 @@ app.add_middleware(
 app.include_router(health_router)
 app.include_router(upload_router, prefix="/api/v1")
 app.include_router(chat_router, prefix="/api/v1")
+
+app.include_router(compare_router, prefix="/api/v1")
 
 
 @app.exception_handler(Exception)
