@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import TelemetryHeroAnimation from "./TelemetryHeroAnimation";
 
 interface WelcomeScreenProps {
   onUpload: (file: File) => Promise<unknown>;
@@ -122,6 +123,8 @@ export default function WelcomeScreen({
             : 'Comparison complete.'}
         </p>
       )}
+
+      <TelemetryHeroAnimation />
     </div>
   );
 }

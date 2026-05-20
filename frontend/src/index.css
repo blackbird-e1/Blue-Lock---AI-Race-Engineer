@@ -43,3 +43,55 @@ body,
   background: #555;
 }
 
+.telemetry-hero {
+  width: 100%;
+  max-width: 900px;
+  height: 90px;
+  margin: 2rem auto 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.telemetry-svg {
+  width: 200%;
+  height: 100%;
+}
+
+.ecg-line {
+  fill: none;
+  stroke: #ff1e1e;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 8px rgba(255, 30, 30, 0.7));
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: ecgTravel 3s linear infinite;
+}
+
+@keyframes ecgTravel {
+  0% {
+    stroke-dashoffset: 1000;
+    opacity: 0.2;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .telemetry-hero {
+    height: 70px;
+    max-width: 100%;
+  }
+
+  .ecg-line {
+    stroke-width: 2;
+  }
+}
