@@ -1,5 +1,6 @@
-import { useRef } from 'react';
 import TelemetryHeroAnimation from "./TelemetryHeroAnimation";
+import { useRef, useState } from 'react';
+import AboutModal from './AboutModal';
 
 interface WelcomeScreenProps {
   onUpload: (file: File) => Promise<unknown>;
@@ -17,6 +18,7 @@ export default function WelcomeScreen({
   uploadedCount,
 }: WelcomeScreenProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [showAbout, setShowAbout] = useState(false);
 
   async function handleFileChange(
     e: React.ChangeEvent<HTMLInputElement>
@@ -124,7 +126,34 @@ export default function WelcomeScreen({
         </p>
       )}
 
-      <TelemetryHeroAnimation />
+      <div className="mt-10 flex flex-col items-center gap-6">
+        <TelemetryHeroAnimation />
+
+        <button
+          onClick={() => setShowAbout(true)}
+          className="
+            px-8
+            py-3
+            rounded-full
+            bg-[#e10600]
+            text-white
+            font-medium
+            shadow-[0_0_20px_rgba(225,6,0,0.35)]
+            hover:bg-[#c90500]
+            hover:shadow-[0_0_28px_rgba(225,6,0,0.5)]
+            hover:-translate-y-0.5
+            transition-all
+            duration-300
+          "
+        >
+          About Us
+        </button>
+      </div>
+
+      <AboutModal
+        isOpen={showAbout}
+        onClose={() => setShowAbout(false)}
+      />
     </div>
   );
 }
