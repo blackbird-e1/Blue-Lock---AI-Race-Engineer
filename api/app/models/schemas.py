@@ -2,12 +2,23 @@ from pydantic import BaseModel, Field
 from typing import Literal
 
 
+class TelemetryPoint(BaseModel):
+    time: float
+    speed: float
+    throttle: float
+    brake: float
+    steering: float
+    gear: int
+    rpm: float
+
+
 class UploadResponse(BaseModel):
     session_id: str
     rows_processed: int
     issues_detected: list[str]
     summary: str
-
+    metrics: dict[str, float]
+    telemetry: list[TelemetryPoint]
 
 class ChatRequest(BaseModel):
     session_id: str = Field(..., min_length=1)
@@ -31,7 +42,17 @@ class MetricComparison(BaseModel):
     compared: float
     delta_percent: float
 
+class TelemetryPoint(BaseModel):
+    time: float
+    speed: float
+    throttle: float
+    brake: float
+    steering: float
+    gear: int
+    rpm: float
 
 class CompareResponse(BaseModel):
     summary: str
     comparison: dict[str, MetricComparison]
+    telemetry_a: list[TelemetryPoint]
+    telemetry_b: list[TelemetryPoint]

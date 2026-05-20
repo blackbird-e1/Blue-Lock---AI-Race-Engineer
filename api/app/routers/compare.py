@@ -38,4 +38,6 @@ async def compare_sessions(
     return CompareResponse(
         summary=result["summary"],
         comparison=result["comparison"],
+        telemetry_a=session_a["telemetry"],
+        telemetry_b=session_b["telemetry"],
     )

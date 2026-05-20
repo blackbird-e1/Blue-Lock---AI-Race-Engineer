@@ -5,6 +5,8 @@ import ChatMessage from './components/ChatMessage';
 import ChatInput from './components/ChatInput';
 import TypingIndicator from './components/TypingIndicator';
 import WelcomeScreen from './components/WelcomeScreen';
+import TelemetryDashboard from './components/TelemetryDashboard';
+import ComparisonDashboard from './components/ComparisonDashboard';
 
 export default function App() {
   const {
@@ -20,6 +22,8 @@ export default function App() {
     mode,
     setMode,
     uploadedCount,
+    telemetry,
+    metrics,
   } = useChat();
 
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -81,6 +85,14 @@ export default function App() {
             </div>)
             }
 
+            {!comparisonResult && (
+              <TelemetryDashboard
+                telemetry={telemetry}
+                metrics={metrics}
+                issues={issues}
+              />
+            )}
+
             {comparisonResult && (
               <div className="mb-6 bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
                 <h2 className="text-lg font-semibold text-white mb-4">
@@ -109,6 +121,12 @@ export default function App() {
                   </div>
                 </div>
               </div>
+            )}
+
+            {comparisonResult && (
+              <ComparisonDashboard
+                comparisonResult={comparisonResult}
+              />
             )}
 
             {messages.map((message) => (

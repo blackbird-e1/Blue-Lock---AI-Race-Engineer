@@ -1,42 +1,46 @@
 import { useState, useCallback } from 'react';
-import type { Message } from '../types';
+import type { Message, 
+  UploadResponse,
+  ComparisonResult,
+  TelemetryPoint,
+  TelemetryMetrics, } from '../types';
 
 function generateId(): string {
   return Math.random().toString(36).slice(2, 11);
 }
 
-interface UploadResponse {
-  session_id: string;
-  rows_processed: number;
-  issues_detected: string[];
-  summary: string;
-}
+// interface UploadResponse {
+//   session_id: string;
+//   rows_processed: number;
+//   issues_detected: string[];
+//   summary: string;
+// }
 
-interface ComparisonResult {
-  summary: string;
-  comparison: {
-    avg_brake: {
-      baseline: number;
-      compared: number;
-      delta_percent: number;
-    };
-    avg_throttle: {
-      baseline: number;
-      compared: number;
-      delta_percent: number;
-    };
-    avg_steering_change: {
-      baseline: number;
-      compared: number;
-      delta_percent: number;
-    };
-    high_rpm_ratio: {
-      baseline: number;
-      compared: number;
-      delta_percent: number;
-    };
-  };
-}
+// interface ComparisonResult {
+//   summary: string;
+//   comparison: {
+//     avg_brake: {
+//       baseline: number;
+//       compared: number;
+//       delta_percent: number;
+//     };
+//     avg_throttle: {
+//       baseline: number;
+//       compared: number;
+//       delta_percent: number;
+//     };
+//     avg_steering_change: {
+//       baseline: number;
+//       compared: number;
+//       delta_percent: number;
+//     };
+//     high_rpm_ratio: {
+//       baseline: number;
+//       compared: number;
+//       delta_percent: number;
+//     };
+//   };
+// }
 
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -50,6 +54,10 @@ export function useChat() {
 
   const [mode, setMode] = useState<'single' | 'compare' | null>(null);
   const [uploadedCount, setUploadedCount] = useState(0);
+
+  const [telemetry, setTelemetry] = useState<TelemetryPoint[]>([]);
+  const [metrics, setMetrics] =
+  useState<TelemetryMetrics | null>(null);
 
   const uploadTelemetry = useCallback(async (file: File) => {
     if (!mode) {
@@ -91,6 +99,8 @@ export function useChat() {
         setSummary(data.summary);
         setIssues(data.issues_detected);
         setUploadedCount(1);
+        setTelemetry(data.telemetry);
+        setMetrics(data.metrics);
         return data;
       }
 
@@ -101,6 +111,8 @@ export function useChat() {
         setSummary(data.summary);
         setIssues(data.issues_detected);
         setUploadedCount(1);
+        setTelemetry(data.telemetry);
+        setMetrics(data.metrics);
         return data;
       }
 
@@ -220,6 +232,8 @@ export function useChat() {
     setComparisonResult(null);
      setMode(null);
     setUploadedCount(0);
+    setTelemetry([]);
+    setMetrics(null);
   }, []);
 
   return {
@@ -235,5 +249,7 @@ export function useChat() {
     mode,
     setMode,
     uploadedCount,
+    telemetry,
+    metrics,
   };
 }

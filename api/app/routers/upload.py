@@ -23,6 +23,7 @@ async def upload_telemetry(file: UploadFile = File(...)) -> UploadResponse:
             session_id,
             {
                 "analysis": analysis,
+                "telemetry": dataframe.to_dict(orient="records"),
             },
         )
 
@@ -31,6 +32,8 @@ async def upload_telemetry(file: UploadFile = File(...)) -> UploadResponse:
             rows_processed=analysis["metrics"]["rows_processed"],
             issues_detected=analysis["issues"],
             summary=analysis["summary"],
+            metrics=analysis["metrics"],
+            telemetry=dataframe.to_dict(orient="records"),
         )
 
     except ValueError as exc:
