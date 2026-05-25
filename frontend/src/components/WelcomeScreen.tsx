@@ -131,7 +131,7 @@ export default function WelcomeScreen({
       <div className="mt-10 flex flex-col items-center gap-6">
         <TelemetryHeroAnimation />
 
-        <div className="flex flex-col items-center gap-4">
+        <div className="mt-8 flex flex-col items-center gap-4">
           <button
             onClick={() => setShowAbout(true)}
             className="

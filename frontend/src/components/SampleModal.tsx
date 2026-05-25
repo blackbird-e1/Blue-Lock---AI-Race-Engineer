@@ -23,13 +23,13 @@ export default function SampleModal({
 
   function downloadBoth() {
     downloadFile(
-      '/samples/sample-telemetry-1.csv',
+      '/samples/telemetry.csv',
       'sample-telemetry-1.csv'
     );
 
     setTimeout(() => {
       downloadFile(
-        '/samples/sample-telemetry-2.csv',
+        '/samples/telemetry-2.csv',
         'sample-telemetry-2.csv'
       );
     }, 400);
@@ -82,7 +82,7 @@ export default function SampleModal({
           <button
             onClick={() =>
               downloadFile(
-                '/samples/sample-telemetry-1.csv',
+                '/samples/telemetry.csv',
                 'sample-telemetry-1.csv'
               )
             }
@@ -103,7 +103,7 @@ export default function SampleModal({
           <button
             onClick={() =>
               downloadFile(
-                '/samples/sample-telemetry-2.csv',
+                '/samples/telemetry-2.csv',
                 'sample-telemetry-2.csv'
               )
             }
