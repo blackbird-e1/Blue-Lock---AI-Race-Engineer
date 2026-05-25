@@ -9,39 +9,6 @@ function generateId(): string {
   return Math.random().toString(36).slice(2, 11);
 }
 
-// interface UploadResponse {
-//   session_id: string;
-//   rows_processed: number;
-//   issues_detected: string[];
-//   summary: string;
-// }
-
-// interface ComparisonResult {
-//   summary: string;
-//   comparison: {
-//     avg_brake: {
-//       baseline: number;
-//       compared: number;
-//       delta_percent: number;
-//     };
-//     avg_throttle: {
-//       baseline: number;
-//       compared: number;
-//       delta_percent: number;
-//     };
-//     avg_steering_change: {
-//       baseline: number;
-//       compared: number;
-//       delta_percent: number;
-//     };
-//     high_rpm_ratio: {
-//       baseline: number;
-//       compared: number;
-//       delta_percent: number;
-//     };
-//   };
-// }
-
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);

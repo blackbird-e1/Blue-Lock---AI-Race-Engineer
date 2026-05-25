@@ -42,15 +42,6 @@ class MetricComparison(BaseModel):
     compared: float
     delta_percent: float
 
-class TelemetryPoint(BaseModel):
-    time: float
-    speed: float
-    throttle: float
-    brake: float
-    steering: float
-    gear: int
-    rpm: float
-
 class CompareResponse(BaseModel):
     summary: str
     comparison: dict[str, MetricComparison]

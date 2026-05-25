@@ -1,6 +1,7 @@
 import TelemetryHeroAnimation from "./TelemetryHeroAnimation";
 import { useRef, useState } from 'react';
 import AboutModal from './AboutModal';
+import SampleModal from './SampleModal';
 
 interface WelcomeScreenProps {
   onUpload: (file: File) => Promise<unknown>;
@@ -19,6 +20,7 @@ export default function WelcomeScreen({
 }: WelcomeScreenProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [showAbout, setShowAbout] = useState(false);
+  const [showSample, setShowSample] = useState(false);
 
   async function handleFileChange(
     e: React.ChangeEvent<HTMLInputElement>
@@ -129,30 +131,57 @@ export default function WelcomeScreen({
       <div className="mt-10 flex flex-col items-center gap-6">
         <TelemetryHeroAnimation />
 
-        <button
-          onClick={() => setShowAbout(true)}
-          className="
-            px-8
-            py-3
-            rounded-full
-            bg-[#e10600]
-            text-white
-            font-medium
-            shadow-[0_0_20px_rgba(225,6,0,0.35)]
-            hover:bg-[#c90500]
-            hover:shadow-[0_0_28px_rgba(225,6,0,0.5)]
-            hover:-translate-y-0.5
-            transition-all
-            duration-300
-          "
-        >
-          About Us
-        </button>
+        <div className="flex flex-col items-center gap-4">
+          <button
+            onClick={() => setShowAbout(true)}
+            className="
+              px-8
+              py-3
+              rounded-full
+              bg-[#e10600]
+              text-white
+              font-medium
+              shadow-[0_0_20px_rgba(225,6,0,0.35)]
+              hover:bg-[#c90500]
+              hover:shadow-[0_0_28px_rgba(225,6,0,0.5)]
+              hover:-translate-y-0.5
+              transition-all
+              duration-300
+            "
+          >
+            About Us
+          </button>
+
+          <button
+            onClick={() => setShowSample(true)}
+            className="
+              px-8
+              py-3
+              rounded-full
+              bg-[#2563eb]
+              text-white
+              font-medium
+              shadow-[0_0_20px_rgba(37,99,235,0.35)]
+              hover:bg-[#1d4ed8]
+              hover:shadow-[0_0_28px_rgba(37,99,235,0.5)]
+              hover:-translate-y-0.5
+              transition-all
+              duration-300
+            "
+          >
+            Sample
+          </button>
+        </div>
       </div>
 
       <AboutModal
         isOpen={showAbout}
         onClose={() => setShowAbout(false)}
+      />
+
+      <SampleModal
+        isOpen={showSample}
+        onClose={() => setShowSample(false)}
       />
     </div>
   );
