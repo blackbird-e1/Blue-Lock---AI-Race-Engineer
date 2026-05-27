@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useChat } from './hooks/useChat';
 import Header from './components/Header';
 import ChatMessage from './components/ChatMessage';
@@ -7,6 +7,7 @@ import TypingIndicator from './components/TypingIndicator';
 import WelcomeScreen from './components/WelcomeScreen';
 import TelemetryDashboard from './components/TelemetryDashboard';
 import ComparisonDashboard from './components/ComparisonDashboard';
+import LapAnalysisDashboard from './components/LapAnalysisDashboard';
 
 export default function App() {
   const {
@@ -27,6 +28,9 @@ export default function App() {
   } = useChat();
 
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [activeTab, setActiveTab] = useState<'telemetry' | 'laps'>(
+  'telemetry'
+  );
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -85,12 +89,55 @@ export default function App() {
             </div>)
             }
 
-            {!comparisonResult && (
+            {/* {!comparisonResult && (
               <TelemetryDashboard
                 telemetry={telemetry}
                 metrics={metrics}
                 issues={issues}
               />
+            )} */}
+            {!comparisonResult && (
+              <>
+                <div className="mb-6">
+                  <div className="inline-flex bg-[#161616] border border-[#2e2e2e] rounded-xl p-1">
+                    <button
+                      onClick={() => setActiveTab('telemetry')}
+                      className={[
+                        'px-5 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer',
+                        activeTab === 'telemetry'
+                          ? 'bg-[#2a2a2a] text-white'
+                          : 'text-gray-400 hover:text-white',
+                      ].join(' ')}
+                    >
+                      Telemetry Analysis
+                    </button>
+
+                    <button
+                      onClick={() => setActiveTab('laps')}
+                      className={[
+                        'px-5 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer',
+                        activeTab === 'laps'
+                          ? 'bg-[#2a2a2a] text-white'
+                          : 'text-gray-400 hover:text-white',
+                      ].join(' ')}
+                    >
+                      Lap Analysis ✨
+                    </button>
+                  </div>
+                </div>
+
+                {activeTab === 'telemetry' && (
+                  <TelemetryDashboard
+                    telemetry={telemetry}
+                    metrics={metrics}
+                    issues={issues}
+                  />
+                )}
+
+                {activeTab === 'laps' && (
+                  <LapAnalysisDashboard />
+                )}
+              </>
             )}
 
             {comparisonResult && (
