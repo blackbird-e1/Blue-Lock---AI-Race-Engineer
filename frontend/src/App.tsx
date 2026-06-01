@@ -8,6 +8,7 @@ import WelcomeScreen from './components/WelcomeScreen';
 import TelemetryDashboard from './components/TelemetryDashboard';
 import ComparisonDashboard from './components/ComparisonDashboard';
 import LapAnalysisDashboard from './components/LapAnalysisDashboard';
+import { useTheme } from './hooks/useTheme';
 
 export default function App() {
   const {
@@ -29,21 +30,25 @@ export default function App() {
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<'telemetry' | 'laps'>(
-  'telemetry'
-  );
+  'telemetry');
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
 
   return (
-    <div className="flex flex-col h-full bg-[#0f0f0f]">
-      <Header onClear={clearMessages}
-        hasMessages={
-          messages.length > 0 ||
-          !!sessionId ||
-          !!comparisonResult
-        } />
+    <div className="flex flex-col h-full bg-white dark:bg-[#0f0f0f]">
+        <Header
+          onClear={clearMessages}
+          hasMessages={
+            messages.length > 0 ||
+            !!sessionId ||
+            !!comparisonResult
+          }
+          theme={theme}
+          toggleTheme={toggleTheme}
+        />
 
       <main className="flex-1 overflow-y-auto">
         {!sessionId || (mode === 'compare' && uploadedCount < 2) ? (
@@ -57,20 +62,20 @@ export default function App() {
         ) : (
           <div className="max-w-3xl mx-auto py-6 px-4">
             {!comparisonResult && (
-              <div className="mb-6 bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
-              <h2 className="text-lg font-semibold text-white mb-3">
+              <div className="mb-6 bg-white dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-2xl p-5">
+              <h2 className="text-lg font-semibold text-black dark:text-white mb-3">
                 Telemetry Analysis
               </h2>
 
               {summary && (
-                <p className="text-gray-300 text-sm mb-4">
+                <p className="text-gray-700 dark:text-gray-300 text-sm mb-4">
                   {summary}
                 </p>
               )}
 
               {issues.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-medium text-gray-400 mb-2">
+                  <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
                     Detected Issues
                   </h3>
 
@@ -78,7 +83,7 @@ export default function App() {
                     {issues.map((issue) => (
                       <li
                         key={issue}
-                        className="text-sm text-gray-300 bg-[#1f1f1f] border border-[#2a2a2a] rounded-lg px-3 py-2"
+                        className="text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-[#1f1f1f] border border-gray-300 dark:border-[#2a2a2a] rounded-lg px-3 py-2"
                       >
                         • {issue}
                       </li>
@@ -99,14 +104,14 @@ export default function App() {
             {!comparisonResult && (
               <>
                 <div className="mb-6">
-                  <div className="inline-flex bg-[#161616] border border-[#2e2e2e] rounded-xl p-1">
+                  <div className="inline-flex bg-gray-100 dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-xl p-1">
                     <button
                       onClick={() => setActiveTab('telemetry')}
                       className={[
                         'px-5 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer',
                         activeTab === 'telemetry'
-                          ? 'bg-[#2a2a2a] text-white'
-                          : 'text-gray-400 hover:text-white',
+                          ? 'bg-white dark:bg-[#2a2a2a] text-black dark:text-white shadow-sm'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white',
                       ].join(' ')}
                     >
                       Telemetry Analysis
@@ -117,8 +122,8 @@ export default function App() {
                       className={[
                         'px-5 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer',
                         activeTab === 'laps'
-                          ? 'bg-[#2a2a2a] text-white'
-                          : 'text-gray-400 hover:text-white',
+                          ? 'bg-white dark:bg-[#2a2a2a] text-black dark:text-white shadow-sm'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white',
                       ].join(' ')}
                     >
                       Lap Analysis ✨

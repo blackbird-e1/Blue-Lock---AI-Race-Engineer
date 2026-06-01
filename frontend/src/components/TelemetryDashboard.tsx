@@ -24,9 +24,14 @@ function StatCard({
   value: string | number;
 }) {
   return (
-    <div className="bg-[#161616] border border-[#2e2e2e] rounded-xl p-4">
-      <p className="text-xs text-gray-400">{title}</p>
-      <p className="text-xl font-semibold text-white mt-2">{value}</p>
+    <div className="bg-white dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-xl p-4">
+      <p className="text-xs text-gray-600 dark:text-gray-400">
+        {title}
+      </p>
+
+      <p className="text-xl font-semibold text-black dark:text-white mt-2">
+        {value}
+      </p>
     </div>
   );
 }
@@ -53,7 +58,7 @@ export default function TelemetryDashboard({
   return (
     <div className="space-y-6 mb-8">
       <div>
-        <h2 className="text-lg font-semibold text-white mb-4">
+        <h2 className="text-lg font-semibold text-black dark:text-white mb-4">
           Driver Performance Dashboard
         </h2>
 
@@ -80,8 +85,8 @@ export default function TelemetryDashboard({
         </div>
       </div>
 
-      <div className="bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
-        <h3 className="text-white font-medium mb-4">
+      <div className="bg-white dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-2xl p-5">
+        <h3 className="text-black dark:text-white font-medium mb-4">
           Speed vs Time
         </h3>
 
@@ -102,8 +107,8 @@ export default function TelemetryDashboard({
         </ResponsiveContainer>
       </div>
 
-      <div className="bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
-        <h3 className="text-white font-medium mb-4">
+      <div className="bg-white dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-2xl p-5">
+        <h3 className="text-black dark:text-white font-medium mb-4">
           Throttle / Brake Analysis
         </h3>
 
@@ -131,15 +136,8 @@ export default function TelemetryDashboard({
         </ResponsiveContainer>
       </div>
 
-      <div
-        className={[
-          'bg-[#161616] border rounded-2xl p-5',
-          unstableSteering
-            ? 'border-red-700'
-            : 'border-[#2e2e2e]',
-        ].join(' ')}
-      >
-        <h3 className="text-white font-medium mb-4">
+      <div className="bg-white dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-2xl p-5">
+        <h3 className="text-black dark:text-white font-medium mb-4">
           Steering Stability
         </h3>
 
@@ -160,15 +158,8 @@ export default function TelemetryDashboard({
         </ResponsiveContainer>
       </div>
 
-      <div
-        className={[
-          'bg-[#161616] border rounded-2xl p-5',
-          delayedUpshifts
-            ? 'border-red-700'
-            : 'border-[#2e2e2e]',
-        ].join(' ')}
-      >
-        <h3 className="text-white font-medium mb-4">
+      <div className="bg-white dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-2xl p-5">
+        <h3 className="text-black dark:text-white font-medium mb-4">
           Gear Change Timeline
         </h3>
 
