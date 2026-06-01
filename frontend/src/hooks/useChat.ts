@@ -1,13 +1,11 @@
 import { useState, useCallback } from 'react';
 import type { Message, 
-  UploadResponse,
   ComparisonResult,
   TelemetryPoint,
   TelemetryMetrics, } from '../types';
 
-function generateId(): string {
-  return Math.random().toString(36).slice(2, 11);
-}
+import { generateId } from '../utils/generateId';
+import { uploadTelemetryFile } from '../services/telemetryService';
 
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -39,27 +37,11 @@ export function useChat() {
       throw new Error('Comparison allows only two files.');
     }
 
-    const formData = new FormData();
-    formData.append('file', file);
+    const data = await uploadTelemetryFile(file);
 
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/v1/upload`,
-        {
-          method: 'POST',
-          body: formData,
-        }
-      );
-
-      if (!response.ok) {
-        const err = await response.json();
-        throw new Error(err.detail || 'Upload failed');
-      }
-
-      const data: UploadResponse = await response.json();
-
       // SINGLE MODE
       if (mode === 'single') {
         setSessionId(data.session_id);
