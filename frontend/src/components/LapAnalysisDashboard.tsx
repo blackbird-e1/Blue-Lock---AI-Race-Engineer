@@ -57,7 +57,7 @@ export default function LapAnalysisDashboard({
         }
 
         fetch(
-            `http://localhost:8000/api/v1/lap/analysis/${sessionId}`
+            `${import.meta.env.VITE_API_URL}/api/v1/lap/analysis/${sessionId}`
         )
             .then((res) => res.json())
             .then((data: LapAnalysisResponse) => setLapData(data))
