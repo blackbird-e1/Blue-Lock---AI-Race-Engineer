@@ -47,14 +47,6 @@ export default function TelemetryDashboard({
   const avgSpeed =
     telemetry.reduce((sum, t) => sum + t.speed, 0) / telemetry.length;
 
-  const unstableSteering = issues.includes(
-    'Unstable steering corrections'
-  );
-
-  const delayedUpshifts = issues.includes(
-    'Delayed upshifts'
-  );
-
   return (
     <div className="space-y-6 mb-8">
       <div>
