@@ -39,7 +39,6 @@ function StatCard({
 export default function TelemetryDashboard({
   telemetry,
   metrics,
-  issues,
 }: TelemetryDashboardProps) {
   if (!telemetry.length || !metrics) return null;
 
