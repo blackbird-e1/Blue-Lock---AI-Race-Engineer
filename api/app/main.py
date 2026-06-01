@@ -11,7 +11,7 @@ from app.limiter import limiter
 from app.routers.chat import router as chat_router
 from app.routers.health import router as health_router
 from app.routers.upload import router as upload_router
-
+from app.routers.lap import router as lap_router
 from app.routers.compare import router as compare_router
 
 
@@ -54,7 +54,7 @@ app.add_middleware(
 app.include_router(health_router)
 app.include_router(upload_router, prefix="/api/v1")
 app.include_router(chat_router, prefix="/api/v1")
-
+app.include_router(lap_router, prefix="/api/v1")
 app.include_router(compare_router, prefix="/api/v1")
 
 

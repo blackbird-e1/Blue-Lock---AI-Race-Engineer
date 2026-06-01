@@ -134,8 +134,10 @@ export default function App() {
                   />
                 )}
 
-                {activeTab === 'laps' && (
-                  <LapAnalysisDashboard />
+                {activeTab === 'laps' && sessionId && (
+                  <LapAnalysisDashboard
+                    sessionId={sessionId}
+                  />
                 )}
               </>
             )}

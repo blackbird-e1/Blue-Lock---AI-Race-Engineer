@@ -3,6 +3,7 @@ from fastapi import UploadFile
 
 
 REQUIRED_COLUMNS = {
+    "lap",
     "time",
     "speed",
     "throttle",
@@ -10,8 +11,8 @@ REQUIRED_COLUMNS = {
     "steering",
     "gear",
     "rpm",
+    "sector",
 }
-
 
 async def parse_telemetry_csv(file: UploadFile) -> pd.DataFrame:
     if not file.filename:

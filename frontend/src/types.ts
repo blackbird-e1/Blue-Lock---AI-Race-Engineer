@@ -30,6 +30,7 @@ export interface StreamChunk {
 }
 
 export interface TelemetryPoint {
+  lap: number;
   time: number;
   speed: number;
   throttle: number;
@@ -37,6 +38,7 @@ export interface TelemetryPoint {
   steering: number;
   gear: number;
   rpm: number;
+  sector: number;
 }
 
 export interface TelemetryMetrics {

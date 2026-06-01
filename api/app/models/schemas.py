@@ -3,6 +3,7 @@ from typing import Literal
 
 
 class TelemetryPoint(BaseModel):
+    lap: int
     time: float
     speed: float
     throttle: float
@@ -10,7 +11,7 @@ class TelemetryPoint(BaseModel):
     steering: float
     gear: int
     rpm: float
-
+    sector: int
 
 class UploadResponse(BaseModel):
     session_id: str
