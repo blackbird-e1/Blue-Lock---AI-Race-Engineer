@@ -18,9 +18,22 @@ function StatCard({
   value: string;
 }) {
   return (
-    <div className="bg-[#161616] border border-[#2e2e2e] rounded-xl p-4">
-      <p className="text-xs text-gray-400">{title}</p>
-      <p className="text-xl font-semibold text-white mt-2">{value}</p>
+    <div className="
+    bg-white
+    dark:bg-[#161616]
+    border
+    border-gray-300
+    dark:border-[#2e2e2e]
+    rounded-xl
+    p-4
+    ">
+        <p className="text-xs text-gray-600 dark:text-gray-400">
+            {title}
+        </p>
+
+        <p className="text-xl font-semibold text-black dark:text-white mt-2">
+            {value}
+        </p>
     </div>
   );
 }
@@ -67,7 +80,7 @@ export default function LapAnalysisDashboard({
     return (
         <div className="space-y-6 mb-8">
         <div>
-            <h2 className="text-lg font-semibold text-white mb-4">
+            <h2 className="text-lg font-semibold text-black dark:text-white mb-4">
             Lap Intelligence Dashboard
             </h2>
 
@@ -102,14 +115,36 @@ export default function LapAnalysisDashboard({
             </div>
         </div>
 
-        <div className="bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
+        <div className="
+            bg-white
+            dark:bg-[#161616]
+            border
+            border-gray-300
+            dark:border-[#2e2e2e]
+            rounded-2xl
+            p-5
+            ">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-5">
-            <h3 className="text-white font-medium">
+            <h3 className="text-black dark:text-white font-medium">
                 Lap Comparison
             </h3>
 
             <div className="flex items-center gap-3">
-                <select className="bg-[#1f1f1f] border border-[#2e2e2e] rounded-lg px-3 py-2 text-sm text-white">
+                <select
+                className="
+                    bg-white
+                    dark:bg-[#1f1f1f]
+                    border
+                    border-gray-300
+                    dark:border-[#2e2e2e]
+                    rounded-lg
+                    px-3
+                    py-2
+                    text-sm
+                    text-black
+                    dark:text-white
+                "
+                >
                 <option>Fastest Lap</option>
                 <option>Lap 2</option>
                 <option>Lap 3</option>
@@ -117,7 +152,21 @@ export default function LapAnalysisDashboard({
 
                 <span className="text-gray-400 text-sm">vs</span>
 
-                <select className="bg-[#1f1f1f] border border-[#2e2e2e] rounded-lg px-3 py-2 text-sm text-white">
+                <select
+                    className="
+                        bg-white
+                        dark:bg-[#1f1f1f]
+                        border
+                        border-gray-300
+                        dark:border-[#2e2e2e]
+                        rounded-lg
+                        px-3
+                        py-2
+                        text-sm
+                        text-black
+                        dark:text-white
+                    "
+                    >
                 <option>Lap 4</option>
                 <option>Lap 5</option>
                 <option>Lap 6</option>
@@ -149,8 +198,16 @@ export default function LapAnalysisDashboard({
             </ResponsiveContainer>
         </div>
 
-        <div className="bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
-            <h3 className="text-white font-medium mb-4">
+        <div className="
+            bg-white
+            dark:bg-[#161616]
+            border
+            border-gray-300
+            dark:border-[#2e2e2e]
+            rounded-2xl
+            p-5
+            ">
+            <h3 className="text-black dark:text-white font-medium mb-4">
             AI Lap Insights
             </h3>
 
@@ -158,7 +215,19 @@ export default function LapAnalysisDashboard({
             {(lapData ? lapData.insights : []).map((insight, index) => (
                 <div
                 key={index}
-                className="text-sm text-gray-300 bg-[#1f1f1f] border border-[#2a2a2a] rounded-lg px-3 py-2"
+                className="
+                    text-sm
+                    text-gray-700
+                    dark:text-gray-300
+                    bg-gray-100
+                    dark:bg-[#1f1f1f]
+                    border
+                    border-gray-300
+                    dark:border-[#2a2a2a]
+                    rounded-lg
+                    px-3
+                    py-2
+                    "
                 >
                 • {insight}
                 </div>
