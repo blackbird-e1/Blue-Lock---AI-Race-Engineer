@@ -48,14 +48,14 @@ export default function WelcomeScreen({
         <div className="flex items-center justify-center gap-2 mb-4">
           <div className="w-1.5 h-10 bg-[#e10600] rounded-sm" />
 
-          <span className="text-white font-bold text-4xl tracking-tight">
+          <span className="text-black dark:text-white font-bold text-4xl tracking-tight">
             F1
           </span>
 
           <div className="w-1.5 h-10 bg-[#e10600] rounded-sm" />
         </div>
 
-        <h1 className="text-3xl font-semibold text-white mb-3">
+        <h1 className="text-3xl font-semibold text-black dark:text-white mb-3">
           AI Race Engineer
         </h1>
 
@@ -80,9 +80,20 @@ export default function WelcomeScreen({
             inputRef.current?.click();
           }}
           disabled={isLoading}
-          className="bg-[#161616] border border-[#2e2e2e] hover:border-[#e10600] rounded-2xl p-6 text-left transition-all"
+          className="
+            bg-white
+            dark:bg-[#161616]
+            border
+            border-gray-300
+            dark:border-[#2e2e2e]
+            hover:border-[#e10600]
+            rounded-2xl
+            p-6
+            text-left
+            transition-all
+            "
         >
-          <h2 className="text-white text-xl font-semibold mb-2">
+          <h2 className="text-black dark:text-white text-xl font-semibold mb-2">
             Analyze Session
           </h2>
 
@@ -101,9 +112,20 @@ export default function WelcomeScreen({
             }
           }}
           disabled={isLoading}
-          className="bg-[#161616] border border-[#2e2e2e] hover:border-[#2563eb] rounded-2xl p-6 text-left transition-all"
+          className="
+          bg-white
+          dark:bg-[#161616]
+          border
+          border-gray-300
+          dark:border-[#2e2e2e]
+          hover:border-[#2563eb]
+          rounded-2xl
+          p-6
+          text-left
+          transition-all
+          "
         >
-          <h2 className="text-white text-xl font-semibold mb-2">
+          <h2 className="text-black dark:text-white text-xl font-semibold mb-2">
             Compare Drivers
           </h2>
 
