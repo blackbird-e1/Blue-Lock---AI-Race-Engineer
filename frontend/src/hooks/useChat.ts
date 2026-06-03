@@ -44,9 +44,11 @@ export function useChat() {
 
         const data = await uploadTelemetryFile(file);
 
+        if (import.meta.env.DEV) {
           await new Promise((resolve) => {
             setTimeout(resolve, 8000);
           });
+        }
 
         setSessionId(data.session_id);
         setSummary(data.summary);
