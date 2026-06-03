@@ -37,13 +37,17 @@ export function useChat() {
       throw new Error('Comparison allows only two files.');
     }
 
-    const data = await uploadTelemetryFile(file);
-
-    setIsLoading(true);
-
     try {
       // SINGLE MODE
       if (mode === 'single') {
+        setIsLoading(true);
+
+        const data = await uploadTelemetryFile(file);
+
+          await new Promise((resolve) => {
+            setTimeout(resolve, 8000);
+          });
+
         setSessionId(data.session_id);
         setSummary(data.summary);
         setIssues(data.issues_detected);
@@ -55,6 +59,9 @@ export function useChat() {
 
       // COMPARE MODE FIRST FILE
       if (mode === 'compare' && uploadedCount === 0) {
+
+        const data = await uploadTelemetryFile(file);
+
         setBaselineSessionId(data.session_id);
         setSessionId(data.session_id);
         setSummary(data.summary);
@@ -67,6 +74,16 @@ export function useChat() {
 
       // COMPARE MODE SECOND FILE
       if (mode === 'compare' && uploadedCount === 1 && baselineSessionId) {
+         setIsLoading(true);
+
+        const data = await uploadTelemetryFile(file);
+
+        if (import.meta.env.DEV) {
+          await new Promise((resolve) => {
+            setTimeout(resolve, 8000);
+          });
+        }
+
         const compareResponse = await fetch(
           `${import.meta.env.VITE_API_URL}/api/v1/compare`,
           {
@@ -94,7 +111,6 @@ export function useChat() {
         return compareData;
       }
 
-      return data;
     } finally {
       setIsLoading(false);
     }

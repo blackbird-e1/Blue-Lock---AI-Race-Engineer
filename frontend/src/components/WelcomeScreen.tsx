@@ -2,6 +2,7 @@ import TelemetryHeroAnimation from "./TelemetryHeroAnimation";
 import { useRef, useState } from 'react';
 import AboutModal from './AboutModal';
 import SampleModal from './SampleModal';
+import F1Loader from './F1Loader';
 
 interface WelcomeScreenProps {
   onUpload: (file: File) => Promise<unknown>;
@@ -18,6 +19,11 @@ export default function WelcomeScreen({
   setMode,
   uploadedCount,
 }: WelcomeScreenProps) {
+
+  if (isLoading) {
+    return <F1Loader />;
+  }
+  
   const inputRef = useRef<HTMLInputElement>(null);
   const [showAbout, setShowAbout] = useState(false);
   const [showSample, setShowSample] = useState(false);
@@ -145,7 +151,7 @@ export default function WelcomeScreen({
             : uploadedCount === 0
             ? 'Upload first telemetry session.'
             : uploadedCount === 1
-            ? 'Upload second telemetry session.'
+            ? '✓ Driver A telemetry uploaded. Upload Driver B telemetry to start comparison.'
             : 'Comparison complete.'}
         </p>
       )}
