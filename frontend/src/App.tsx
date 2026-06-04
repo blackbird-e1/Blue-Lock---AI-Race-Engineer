@@ -9,14 +9,15 @@ import TelemetryDashboard from './components/TelemetryDashboard';
 import ComparisonDashboard from './components/ComparisonDashboard';
 import LapAnalysisDashboard from './components/LapAnalysisDashboard';
 import { useTheme } from './hooks/useTheme';
+import { useTelemetryUpload } from './hooks/useTelemetryUpload';
 
 export default function App() {
+  
+  const telemetryUpload = useTelemetryUpload();
   const {
-    messages,
-    isLoading,
-    sendMessage,
-    clearMessages,
     uploadTelemetry,
+    resetTelemetry,
+    isUploading,
     sessionId,
     summary,
     issues,
@@ -26,7 +27,22 @@ export default function App() {
     uploadedCount,
     telemetry,
     metrics,
-  } = useChat();
+  } = telemetryUpload;
+  
+  const {
+    messages,
+    isLoading,
+    sendMessage,
+    clearMessages,
+  } = useChat({
+    sessionId,
+    comparisonResult,
+  });
+
+  const handleClear = () => {
+    clearMessages();
+    resetTelemetry();
+  };
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<'telemetry' | 'laps'>(
@@ -40,7 +56,7 @@ export default function App() {
   return (
     <div className="flex flex-col h-full bg-white dark:bg-[#0f0f0f]">
         <Header
-          onClear={clearMessages}
+          onClear={handleClear}
           hasMessages={
             messages.length > 0 ||
             !!sessionId ||
@@ -54,7 +70,7 @@ export default function App() {
         {!sessionId || (mode === 'compare' && uploadedCount < 2) ? (
           <WelcomeScreen
             onUpload={uploadTelemetry}
-            isLoading={isLoading}
+            isLoading={isUploading}
             mode={mode}
             setMode={setMode}
             uploadedCount={uploadedCount}
