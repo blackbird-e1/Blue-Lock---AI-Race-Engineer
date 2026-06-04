@@ -10,6 +10,7 @@ import ComparisonDashboard from './components/ComparisonDashboard';
 import LapAnalysisDashboard from './components/LapAnalysisDashboard';
 import { useTheme } from './hooks/useTheme';
 import { useTelemetryUpload } from './hooks/useTelemetryUpload';
+import RaceCountdownWidget from './components/RaceCountdownWidget';
 
 export default function App() {
   
@@ -219,6 +220,8 @@ export default function App() {
             />
           </div>
         )}
+
+      <RaceCountdownWidget />
     </div>
   );
 }

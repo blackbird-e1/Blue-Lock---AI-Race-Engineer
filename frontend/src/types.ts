@@ -75,3 +75,10 @@ export interface ComparisonResult {
   telemetry_a: TelemetryPoint[];
   telemetry_b: TelemetryPoint[];
 }
+
+export interface NextRace {
+  race_name: string;
+  country: string;
+  location: string;
+  race_date_ist: string;
+}

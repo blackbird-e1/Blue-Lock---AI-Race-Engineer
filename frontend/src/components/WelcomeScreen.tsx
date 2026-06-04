@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import AboutModal from './AboutModal';
 import SampleModal from './SampleModal';
 import F1Loader from './F1Loader';
+import RaceCountdownWidget from './RaceCountdownWidget';
 
 interface WelcomeScreenProps {
   onUpload: (file: File) => Promise<unknown>;
@@ -211,6 +212,8 @@ export default function WelcomeScreen({
         isOpen={showSample}
         onClose={() => setShowSample(false)}
       />
+
+      <RaceCountdownWidget />
     </div>
   );
 }
