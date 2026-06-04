@@ -9,3 +9,4 @@ python-multipart==0.0.20
 pandas==2.2.3
 numpy==2.2.1
 groq==0.13.1
+fastf1==3.6.1
