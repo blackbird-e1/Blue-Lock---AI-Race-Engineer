@@ -8,10 +8,6 @@ import type {
 } from '../types';
 
 export function useTelemetryUpload() {
-
-
-
-
   const [isUploading, setIsUploading] =
     useState(false);
 

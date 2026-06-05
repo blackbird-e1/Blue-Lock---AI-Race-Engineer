@@ -11,6 +11,8 @@ import LapAnalysisDashboard from './components/LapAnalysisDashboard';
 import { useTheme } from './hooks/useTheme';
 import { useTelemetryUpload } from './hooks/useTelemetryUpload';
 import RaceCountdownWidget from './components/RaceCountdownWidget';
+import { SignedIn } from "@clerk/clerk-react";
+import CalendarSidebar from "./components/CalendarSidebar";
 
 export default function App() {
   
@@ -222,6 +224,10 @@ export default function App() {
         )}
 
       <RaceCountdownWidget />
+
+      <SignedIn>
+        <CalendarSidebar />
+      </SignedIn>
     </div>
   );
 }

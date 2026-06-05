@@ -1,3 +1,10 @@
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from '@clerk/clerk-react';
+
 export default function Header({ onClear, hasMessages, theme, toggleTheme, }: { onClear: () => void; hasMessages: boolean;  theme: "dark" | "light"; toggleTheme: () => void; }) {
   return (
     <header className="flex items-center justify-between px-6 py-4 border-b border-gray-300 dark:border-[#2e2e2e] bg-white dark:bg-[#0f0f0f]">
@@ -17,6 +24,17 @@ export default function Header({ onClear, hasMessages, theme, toggleTheme, }: { 
       </div>
 
       <div className="flex items-center gap-2">
+      <SignedOut>
+        <SignInButton mode="modal">
+          <button className="h-[36px] px-3 rounded border border-gray-300 dark:border-[#2e2e2e] text-xs hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors cursor-pointer">
+            Sign In
+          </button>
+        </SignInButton>
+      </SignedOut>
+
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
       <button
         onClick={toggleTheme}
         className="h-[36px] w-[36px] rounded border border-gray-300 dark:border-[#2e2e2e] hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors cursor-pointer flex items-center justify-center text-sm"
