@@ -4,7 +4,7 @@ from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from app.models.schemas import UploadResponse
 from app.services.analyzer import analyze_telemetry
-from app.services.parser import parse_telemetry_csv
+from app.services.parser import parse_telemetry_file
 from app.services.session_store import save_session
 
 
@@ -14,7 +14,7 @@ router = APIRouter(prefix="/upload", tags=["upload"])
 @router.post("", response_model=UploadResponse)
 async def upload_telemetry(file: UploadFile = File(...)) -> UploadResponse:
     try:
-        dataframe = await parse_telemetry_csv(file)
+        dataframe = await parse_telemetry_file(file)
         analysis = analyze_telemetry(dataframe)
 
         session_id = str(uuid.uuid4())

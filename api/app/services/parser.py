@@ -1,20 +1,10 @@
 import pandas as pd
 from fastapi import UploadFile
 
+from .telemetry_schema import REQUIRED_COLUMNS
+from .ibt_parser import parse_ibt
 
-REQUIRED_COLUMNS = {
-    "lap",
-    "time",
-    "speed",
-    "throttle",
-    "brake",
-    "steering",
-    "gear",
-    "rpm",
-    "sector",
-}
-
-async def parse_telemetry_csv(file: UploadFile) -> pd.DataFrame:
+async def parse_csv(file: UploadFile) -> pd.DataFrame:
     if not file.filename:
         raise ValueError("No file uploaded.")
 
@@ -42,3 +32,24 @@ async def parse_telemetry_csv(file: UploadFile) -> pd.DataFrame:
         raise ValueError("CSV file contains no telemetry data.")
 
     return dataframe
+
+async def parse_telemetry_file(
+    file: UploadFile,
+) -> pd.DataFrame:
+
+    if not file.filename:
+        raise ValueError(
+            "No file uploaded."
+        )
+
+    filename = file.filename.lower()
+
+    if filename.endswith(".csv"):
+        return await parse_csv(file)
+
+    if filename.endswith(".ibt"):
+        return await parse_ibt(file)
+
+    raise ValueError(
+        "Only CSV and IBT files are supported."
+    )
