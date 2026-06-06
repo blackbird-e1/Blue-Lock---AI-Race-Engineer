@@ -24,8 +24,6 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: var(--color-carbon);
-  color: #f0f0f0;
   font-family: var(--font-family-sans);
   -webkit-font-smoothing: antialiased;
 }

@@ -60,8 +60,20 @@ function MetricCard({
   const positive = delta > 0;
 
   return (
-    <div className="bg-[#161616] border border-[#2e2e2e] rounded-xl p-4">
-      <p className="text-xs text-gray-400">{title}</p>
+    <div className="
+      bg-white
+      dark:bg-[#161616]
+      border
+      border-gray-300
+      dark:border-[#2e2e2e]
+      rounded-xl
+      p-4
+    ">
+      <p className="
+        text-xs
+        text-gray-600
+        dark:text-gray-400
+      ">{title}</p>
       <p
         className={[
           'text-xl font-semibold mt-2',
@@ -81,11 +93,18 @@ export default function ComparisonDashboard({
     comparisonResult.telemetry_a,
     comparisonResult.telemetry_b
   );
+  const isDark = document.documentElement.classList.contains("dark");
 
   return (
     <div className="space-y-6 mb-8">
       <div>
-        <h2 className="text-lg font-semibold text-white mb-4">
+        <h2 className="
+          text-lg
+          font-semibold
+          text-black
+          dark:text-white
+          mb-4
+        ">
           Driver Comparison Dashboard
         </h2>
 
@@ -118,16 +137,40 @@ export default function ComparisonDashboard({
         </div>
       </div>
 
-      <div className="bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
-        <h3 className="text-white font-medium mb-4">
+      <div
+        className="
+          bg-white
+          dark:bg-[#161616]
+          border
+          border-gray-300
+          dark:border-[#2e2e2e]
+          rounded-2xl
+          p-5
+        "
+      >
+        <h3 className="
+          text-black
+          dark:text-white
+          font-medium
+          mb-4
+        ">
           Speed Comparison
         </h3>
 
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={mergedData}>
-            <CartesianGrid stroke="#2a2a2a" />
-            <XAxis dataKey="time" stroke="#888" />
-            <YAxis stroke="#888" />
+                      <CartesianGrid
+            stroke={isDark ? "#2a2a2a" : "#d1d5db"}
+          />
+
+          <XAxis
+            dataKey="time"
+            stroke={isDark ? "#888" : "#4b5563"}
+          />
+
+          <YAxis
+            stroke={isDark ? "#888" : "#4b5563"}
+          />
             <Tooltip />
             <Legend />
             <Line
@@ -150,16 +193,35 @@ export default function ComparisonDashboard({
         </ResponsiveContainer>
       </div>
 
-      <div className="bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
-        <h3 className="text-white font-medium mb-4">
+      <div
+        className="
+          bg-white
+          dark:bg-[#161616]
+          border
+          border-gray-300
+          dark:border-[#2e2e2e]
+          rounded-2xl
+          p-5
+        "
+      >
+        <h3 className="text-black dark:text-white font-medium mb-4">
           Throttle / Brake Comparison
         </h3>
 
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={mergedData}>
-            <CartesianGrid stroke="#2a2a2a" />
-            <XAxis dataKey="time" stroke="#888" />
-            <YAxis stroke="#888" />
+            <CartesianGrid
+              stroke={isDark ? "#2a2a2a" : "#d1d5db"}
+            />
+
+            <XAxis
+              dataKey="time"
+              stroke={isDark ? "#888" : "#4b5563"}
+            />
+
+            <YAxis
+              stroke={isDark ? "#888" : "#4b5563"}
+            />
             <Tooltip />
             <Legend />
             <Line
@@ -194,16 +256,35 @@ export default function ComparisonDashboard({
         </ResponsiveContainer>
       </div>
 
-      <div className="bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
-        <h3 className="text-white font-medium mb-4">
+      <div
+        className="
+          bg-white
+          dark:bg-[#161616]
+          border
+          border-gray-300
+          dark:border-[#2e2e2e]
+          rounded-2xl
+          p-5
+        "
+      >
+        <h3 className="text-black dark:text-white font-medium mb-4">
           Steering Comparison
         </h3>
 
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={mergedData}>
-            <CartesianGrid stroke="#2a2a2a" />
-            <XAxis dataKey="time" stroke="#888" />
-            <YAxis stroke="#888" />
+            <CartesianGrid
+              stroke={isDark ? "#2a2a2a" : "#d1d5db"}
+            />
+
+            <XAxis
+              dataKey="time"
+              stroke={isDark ? "#888" : "#4b5563"}
+            />
+
+            <YAxis
+              stroke={isDark ? "#888" : "#4b5563"}
+            />
             <Tooltip />
             <Legend />
             <Line
@@ -224,16 +305,35 @@ export default function ComparisonDashboard({
         </ResponsiveContainer>
       </div>
 
-      <div className="bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
-        <h3 className="text-white font-medium mb-4">
+      <div
+        className="
+          bg-white
+          dark:bg-[#161616]
+          border
+          border-gray-300
+          dark:border-[#2e2e2e]
+          rounded-2xl
+          p-5
+        "
+      >
+        <h3 className="text-black dark:text-white font-medium mb-4">
           Gear Timeline Comparison
         </h3>
 
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={mergedData}>
-            <CartesianGrid stroke="#2a2a2a" />
-            <XAxis dataKey="time" stroke="#888" />
-            <YAxis stroke="#888" />
+            <CartesianGrid
+              stroke={isDark ? "#2a2a2a" : "#d1d5db"}
+            />
+
+            <XAxis
+              dataKey="time"
+              stroke={isDark ? "#888" : "#4b5563"}
+            />
+
+            <YAxis
+              stroke={isDark ? "#888" : "#4b5563"}
+            />
             <Tooltip />
             <Legend />
             <Line

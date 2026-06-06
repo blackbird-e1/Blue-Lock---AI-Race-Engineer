@@ -167,29 +167,82 @@ export default function App() {
             )}
 
             {comparisonResult && (
-              <div className="mb-6 bg-[#161616] border border-[#2e2e2e] rounded-2xl p-5">
-                <h2 className="text-lg font-semibold text-white mb-4">
+              <div className="
+                mb-6
+                bg-white
+                dark:bg-[#161616]
+                border
+                border-gray-300
+                dark:border-[#2e2e2e]
+                rounded-2xl
+                p-5
+              ">
+                <h2 className="text-lg font-semibold text-black dark:text-white mb-4">
                   Comparison Report
                 </h2>
 
-                <p className="text-gray-300 text-sm mb-4">
+                <p className="text-gray-700 dark:text-gray-300 text-sm mb-4">
                   {comparisonResult.summary}
                 </p>
 
                 <div className="space-y-3">
-                  <div className="bg-[#1f1f1f] rounded-lg p-3 text-gray-300 text-sm">
+                  <div className="
+                    bg-gray-100
+                    dark:bg-[#1f1f1f]
+                    border
+                    border-gray-300
+                    dark:border-[#2a2a2a]
+                    rounded-lg
+                    p-3
+                    text-gray-700
+                    dark:text-gray-300
+                    text-sm
+                  ">
                     Braking Delta: {comparisonResult.comparison.avg_brake.delta_percent}%
                   </div>
 
-                  <div className="bg-[#1f1f1f] rounded-lg p-3 text-gray-300 text-sm">
+                  <div className="
+                    bg-gray-100
+                    dark:bg-[#1f1f1f]
+                    border
+                    border-gray-300
+                    dark:border-[#2a2a2a]
+                    rounded-lg
+                    p-3
+                    text-gray-700
+                    dark:text-gray-300
+                    text-sm
+                  ">
                     Throttle Delta: {comparisonResult.comparison.avg_throttle.delta_percent}%
                   </div>
 
-                  <div className="bg-[#1f1f1f] rounded-lg p-3 text-gray-300 text-sm">
+                  <div className="
+                    bg-gray-100
+                    dark:bg-[#1f1f1f]
+                    border
+                    border-gray-300
+                    dark:border-[#2a2a2a]
+                    rounded-lg
+                    p-3
+                    text-gray-700
+                    dark:text-gray-300
+                    text-sm
+                  ">
                     Steering Delta: {comparisonResult.comparison.avg_steering_change.delta_percent}%
                   </div>
 
-                  <div className="bg-[#1f1f1f] rounded-lg p-3 text-gray-300 text-sm">
+                  <div className="
+                    bg-gray-100
+                    dark:bg-[#1f1f1f]
+                    border
+                    border-gray-300
+                    dark:border-[#2a2a2a]
+                    rounded-lg
+                    p-3
+                    text-gray-700
+                    dark:text-gray-300
+                    text-sm
+                  ">
                     RPM Delta: {comparisonResult.comparison.high_rpm_ratio.delta_percent}%
                   </div>
                 </div>

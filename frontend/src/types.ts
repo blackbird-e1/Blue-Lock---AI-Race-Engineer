@@ -80,5 +80,9 @@ export interface NextRace {
   race_name: string;
   country: string;
   location: string;
+
   race_date_ist: string;
+
+  next_session_name: string;
+  next_session_time_ist: string;
 }

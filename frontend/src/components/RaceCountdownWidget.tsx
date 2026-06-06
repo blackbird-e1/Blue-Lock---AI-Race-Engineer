@@ -21,40 +21,47 @@ export default function RaceCountdownWidget() {
   }, []);
 
   useEffect(() => {
-    if (!race) return;
+  if (!race) return;
 
-    const interval = setInterval(() => {
-      const target = new Date(race.race_date_ist);
-      const now = new Date();
+  console.log('SESSION:', race.next_session_name);
+  console.log('TIME:', race.next_session_time_ist);
 
-      const diff = target.getTime() - now.getTime();
+  const interval = setInterval(() => {
+    const target = new Date(
+      race.next_session_time_ist
+    );
 
-      if (diff <= 0) {
-        setCountdown('LIVE');
-        return;
-      }
+    const now = new Date();
 
-      const days = Math.floor(
-        diff / (1000 * 60 * 60 * 24)
-      );
+    const diff =
+      target.getTime() - now.getTime();
 
-      const hours = Math.floor(
-        (diff % (1000 * 60 * 60 * 24))
-        / (1000 * 60 * 60)
-      );
+    if (diff <= 0) {
+      setCountdown('LIVE');
+      return;
+    }
 
-      const minutes = Math.floor(
-        (diff % (1000 * 60 * 60))
-        / (1000 * 60)
-      );
+    const days = Math.floor(
+      diff / (1000 * 60 * 60 * 24)
+    );
 
-      setCountdown(
-        `${days}D ${hours}H ${minutes}M`
-      );
-    }, 1000);
+    const hours = Math.floor(
+      (diff % (1000 * 60 * 60 * 24))
+      / (1000 * 60 * 60)
+    );
 
-    return () => clearInterval(interval);
-  }, [race]);
+    const minutes = Math.floor(
+      (diff % (1000 * 60 * 60))
+      / (1000 * 60)
+    );
+
+    setCountdown(
+      `${days}D ${hours}H ${minutes}M`
+    );
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, [race]);
 
   if (!race) return null;
 
@@ -120,6 +127,9 @@ export default function RaceCountdownWidget() {
       </p>
 
       <div className="mt-4 text-xl font-bold text-white">
+        <p className="text-gray-400 text-sm">
+        {race.next_session_name}
+        </p>
         {countdown}
       </div>
     </div>
