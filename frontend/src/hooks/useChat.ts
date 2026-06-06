@@ -43,18 +43,16 @@ export function useChat({
       try {
         const finalMessage = comparisonResult
           ? `
-Comparison context:
-${comparisonResult.summary}
+        Comparison context:
+        ${comparisonResult.summary}
 
-Braking delta: ${comparisonResult.comparison.avg_brake.delta_percent}%
-Throttle delta: ${comparisonResult.comparison.avg_throttle.delta_percent}%
-Steering delta: ${comparisonResult.comparison.avg_steering_change.delta_percent}%
-RPM delta: ${comparisonResult.comparison.high_rpm_ratio.delta_percent}%
+        Braking delta: ${comparisonResult.comparison.avg_brake.delta_percent}%
+        Throttle delta: ${comparisonResult.comparison.avg_throttle.delta_percent}%
+        Steering delta: ${comparisonResult.comparison.avg_steering_change.delta_percent}%
+        RPM delta: ${comparisonResult.comparison.high_rpm_ratio.delta_percent}%
 
-User question: ${content}
-`
+        User question: ${content}`
           : content;
-
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/v1/chat`,
           {
