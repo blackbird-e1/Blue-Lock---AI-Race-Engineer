@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter
 import fastf1
 
 router = APIRouter(
@@ -38,31 +38,50 @@ def get_calendar():
 
     return races
 
-
-@router.get("/podium")
-def get_podium(
-    race: str = Query(...)
-):
+@router.get("/wdc")
+def get_wdc():
     current_year = datetime.now().year
 
-    try:
-        session = fastf1.get_session(
-            current_year,
-            race,
-            "R",
+    ergast = fastf1.ergast.Ergast()
+
+    standings = ergast.get_driver_standings(
+        season=current_year
+    )
+
+    df = standings.content[0]
+
+    top_three = []
+
+    for _, driver in df.head(3).iterrows():
+        top_three.append(
+            {
+                "name": (
+                    f"{driver['givenName']} "
+                    f"{driver['familyName']}"
+                ),
+                "points": float(driver["points"]),
+                "wins": int(driver["wins"])
+            }
         )
 
-        session.load()
+    return top_three
 
-        results = session.results.head(3)
+@router.get("/wcc")
+def get_wcc():
+    current_year = datetime.now().year
 
-        return [
-            results.iloc[0]["FullName"],
-            results.iloc[1]["FullName"],
-            results.iloc[2]["FullName"],
-        ]
+    ergast = fastf1.ergast.Ergast()
 
-    except Exception as error:
-        print(error)
+    standings = ergast.get_constructor_standings(
+        season=current_year
+    )
 
-        return []
+    df = standings.content[0]
+
+    leader = df.iloc[0]
+
+    return {
+        "leader": str(leader["constructorName"]),
+        "points": float(leader["points"]),
+        "wins": int(leader["wins"])
+    }

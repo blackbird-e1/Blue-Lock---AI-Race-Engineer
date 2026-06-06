@@ -1,22 +1,33 @@
 import { useState, useEffect } from 'react';
 import { getCalendar } from '../services/calendarService';
-import { getPodium } from '../services/podiumService';
+import { getWcc } from '../services/wccService';
+import { getWdc } from '../services/wdcService';
 
 type Race = {
   race: string;
   date: string;
   status: 'completed' | 'upcoming';
-  podium?: string[];
 };
 
 export default function CalendarSidebar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [hoveredRace, setHoveredRace] =
-    useState<string | null>(null);
+  
   const [races, setRaces] =
   useState<Race[]>([]);
-  const [podiums, setPodiums] =
-  useState<Record<string, string[]>>({});
+  const [wdcData, setWdcData] =
+  useState<
+    {
+      name: string;
+      points: number;
+      wins: number;
+    }[]
+  >([]);
+
+  const [wccData, setWccData] =
+    useState({
+        leader: 'Loading...',
+        points: 0,
+      });
 
   useEffect(() => {
     async function loadCalendar() {
@@ -27,32 +38,28 @@ export default function CalendarSidebar() {
         console.error(error);
         }
     }
-
     loadCalendar();
     }, []);
 
-    async function handleHover(
-        raceName: string
-        ) {
-        setHoveredRace(raceName);
+    useEffect(() => {
+      async function loadWdc() {
+        const data = await getWdc();
+        setWdcData(data);
+      }
 
-        if (podiums[raceName]) {
-            return;
-        }
+      loadWdc();
+    }, []);
 
-        try {
-            const data =
-            await getPodium(raceName);
+    useEffect(() => {
+      async function loadWcc() {
+        const data = await getWcc();
+        setWccData(data);
+      }
 
-            setPodiums((prev) => ({
-            ...prev,
-            [raceName]: data,
-            }));
-        } catch (error) {
-            console.error(error);
-        }
-        }
+      loadWcc();
+    }, []);
 
+    
   const upcomingRaces = races.filter(
     (race) => race.status === 'upcoming'
   );
@@ -60,6 +67,19 @@ export default function CalendarSidebar() {
   const completedRaces = races.filter(
     (race) => race.status === 'completed'
   );
+
+  const leaderPoints =
+    wdcData.length > 0
+      ? wdcData[0].points
+      : 0;
+
+  const leader =
+  wdcData.length > 0
+    ? wdcData[0]
+    : null;
+
+  const challengers =
+  wdcData.slice(1);
 
   return (
     <>
@@ -76,7 +96,6 @@ export default function CalendarSidebar() {
           rounded-r-lg
           px-2
           py-4
-          cursor-pointer
           hover:bg-[#1a1a1a]
           transition-colors
         "
@@ -91,7 +110,7 @@ export default function CalendarSidebar() {
           'left-0',
           'top-0',
           'h-screen',
-          'w-80',
+          'w-[1000px]',
           'bg-[#111111]',
           'border-r',
           'border-[#2e2e2e]',
@@ -106,93 +125,141 @@ export default function CalendarSidebar() {
           isOpen ? 'translate-x-0' : '-translate-x-full',
         ].join(' ')}
       >
-        <h2 className="text-white text-xl font-semibold mb-6">
-          F1 Calendar
-        </h2>
+        <div className="flex h-full">
+          <div className="w-[60%] pr-6">
+            <h2 className="text-white text-xl font-semibold mb-6">
+              F1 Calendar
+            </h2>
 
-        <div className="mb-8">
-          <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-3">
-            Upcoming
-          </h3>
+            <div className="grid grid-cols-2 gap-8">
+              
+            <div>
+              <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-3">
+                Upcoming
+              </h3>
 
-          <div className="space-y-3">
-            {upcomingRaces.map((race) => (
-              <div
-                key={race.race}
-                className="
-                  border-l-2
-                  border-[#e10600]
-                  pl-3
-                  py-2
-                "
-              >
-                <div className="text-white font-medium">
-                  🏁 {race.race}
-                </div>
+              <div className="space-y-1">
+                {upcomingRaces.map((race) => (
+                  <div
+                    key={`${race.race}-${race.date}`}
+                    className="
+                      flex
+                      justify-between
+                      items-center
+                      border-l-2
+                      border-[#e10600]
+                      pl-3
+                      py-1
+                    "
+                  >
+                    <span className="text-white text-sm">
+                      {race.race}
+                    </span>
 
-                <div className="text-sm text-gray-400">
-                  {race.date}
-                </div>
+                    <span className="text-xs text-gray-400 whitespace-nowrap">
+                      {race.date}
+                    </span>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            <div>
+              <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-3">
+                Completed
+              </h3>
+
+              <div className="space-y-1">
+                {completedRaces.map((race) => (
+                  <div
+                    key={`${race.race}-${race.date}`}
+                    className="
+                      flex
+                      justify-between
+                      items-center
+                      border-b
+                      border-[#2e2e2e]
+                      py-1
+                    "
+                  >
+                    <span className="text-gray-200 text-sm">
+                      ✓ {race.race}
+                    </span>
+
+                    <span className="text-xs text-gray-500 whitespace-nowrap">
+                      {race.date}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            </div>
           </div>
-        </div>
 
-        <div>
-          <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-3">
-            Completed
-          </h3>
+          <div
+            className="
+              w-[40%]
+              border-l
+              border-[#2e2e2e]
+              pl-6
+            "
+          >
+            <>
+              <h2 className="text-white text-2xl font-semibold mb-6">
+                Championship Overview
+              </h2>
 
-          <div className="space-y-3">
-            {completedRaces.map((race) => (
-              <div
-                key={race.race}
-                className="
-                  border-b
-                  border-[#2e2e2e]
-                  pb-3
-                  cursor-pointer
-                "
-                onMouseEnter={() =>
-                  handleHover(race.race)
-                }
-                onMouseLeave={() =>
-                  setHoveredRace(null)
-                }
-              >
-                <div className="text-gray-200 font-medium">
-                  ✓ {race.race}
+              <div className="mb-8">
+                <div className="text-gray-500 text-sm">
+                  WDC Leader
                 </div>
 
-                <div className="text-sm text-gray-500">
-                  {race.date}
+                <div className="text-white text-3xl font-bold">
+                  {leader?.name}
                 </div>
 
-                {hoveredRace === race.race && (
-                    <div className="mt-3 space-y-1 text-sm text-gray-300">
-                        {!podiums[race.race] ? (
-                        <div className="text-gray-500">
-                            Loading podium...
-                        </div>
-                        ) : (
-                        <>
-                            <div>
-                            🥇 {podiums[race.race][0]}
-                            </div>
+                <div className="text-gray-400 mt-2 mb-6">
+                  {leader?.points} pts
+                </div>
 
-                            <div>
-                            🥈 {podiums[race.race][1]}
-                            </div>
+                <div className="space-y-4">
+                  {challengers.map((driver, index) => (
+                    <div
+                      key={driver.name}
+                      className="
+                        border-b
+                        border-[#2e2e2e]
+                        pb-3
+                      "
+                    >
+                      <div className="text-white font-semibold">
+                        {index + 2}. {driver.name}
+                      </div>
 
-                            <div>
-                            🥉 {podiums[race.race][2]}
-                            </div>
-                        </>
-                        )}
+                      <div className="text-gray-400 text-sm">
+                        {driver.points} pts
+                        {' '}
+                        (-{leaderPoints - driver.points})
+                      </div>
                     </div>
-                    )}
+                  ))}
+                </div>
               </div>
-            ))}
+
+              <div>
+                <div className="text-gray-500 text-sm">
+                  WCC Leader
+                </div>
+
+                <div className="text-white text-3xl font-bold">
+                  {wccData.leader}
+                </div>
+                <div className="text-gray-400 mt-2">
+                  {wccData.points} pts
+                </div>
+              </div>
+            </>
           </div>
         </div>
       </div>
