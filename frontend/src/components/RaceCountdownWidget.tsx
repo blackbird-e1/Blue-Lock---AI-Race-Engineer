@@ -207,7 +207,9 @@ export default function RaceCountdownWidget() {
                 </div>
 
                 <div className="mt-6">
-                  <LiveTrackPreview />
+                  <LiveTrackPreview 
+                    raceName={race.race_name}
+                  />
 
                   <div className="mt-4 text-white text-sm">
                     <div className="flex justify-between">

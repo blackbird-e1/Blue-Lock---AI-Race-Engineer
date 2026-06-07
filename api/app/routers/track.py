@@ -8,5 +8,7 @@ router = APIRouter(
 
 
 @router.get("/layout")
-async def track_layout():
-    return get_track_layout()
+async def track_layout(race: str):
+    return get_track_layout(
+            race
+    )

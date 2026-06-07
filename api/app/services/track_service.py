@@ -1,10 +1,10 @@
 import fastf1
 
 
-def get_track_layout():
+def get_track_layout(race_name: str):
     session = fastf1.get_session(
         2025,
-        "Monaco",
+        race_name,
         "R"
     )
 

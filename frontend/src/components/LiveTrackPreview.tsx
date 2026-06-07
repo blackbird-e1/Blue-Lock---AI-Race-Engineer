@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import { getTrackLayout } from '../services/trackService';
 
-export default function LiveTrackPreview() {
+type Props = {
+  raceName: string;
+};
+
+export default function LiveTrackPreview({
+      raceName,
+    }: Props)  {
   const [car1Progress, setCar1Progress] = useState(0);
   const [car2Progress, setCar2Progress] = useState(120);
   const [track, setTrack] = useState<{
@@ -16,12 +22,14 @@ export default function LiveTrackPreview() {
     }, 50);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [raceName]);
 
   useEffect(() => {
   async function loadTrack() {
     try {
-      const data = await getTrackLayout();
+      const data = await getTrackLayout(
+        raceName
+      );
 
       console.log('TRACK LOADED');
       console.log(data);
@@ -33,7 +41,7 @@ export default function LiveTrackPreview() {
   }
 
     loadTrack();
-    }, []);
+    }, [raceName]);
 
 
     if (!track) {

@@ -1,8 +1,10 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-export async function getTrackLayout() {
+export async function getTrackLayout(
+    raceName: string
+) {
   const response = await fetch(
-    `${API_URL}/api/v1/track/layout`
+    `${API_URL}/api/v1/track/layout?race=${raceName}`
   );
 
   if (!response.ok) {
