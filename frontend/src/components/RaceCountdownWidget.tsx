@@ -27,19 +27,48 @@ export default function RaceCountdownWidget() {
     loadRace();
   }, []);
 
-    useEffect(() => {
+//     useEffect(() => {
+//   if (!race) return;
+
+//   async function loadLeaderboard() {
+//     try {
+//       const data =
+//         await getLeaderboard(
+//           race.race_name
+//         );
+
+//       setLeader(
+//         data.leader
+//       );
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   }
+
+//   loadLeaderboard();
+
+//   const interval = setInterval(
+//     loadLeaderboard,
+//     30000
+//   );
+
+//   return () =>
+//     clearInterval(interval);
+
+// }, [race]);
+
+useEffect(() => {
   if (!race) return;
+
+  const currentRace = race;
 
   async function loadLeaderboard() {
     try {
-      const data =
-        await getLeaderboard(
-          race.race_name
-        );
-
-      setLeader(
-        data.leader
+      const data = await getLeaderboard(
+        currentRace.race_name
       );
+
+      setLeader(data.leader);
     } catch (error) {
       console.error(error);
     }
@@ -52,8 +81,7 @@ export default function RaceCountdownWidget() {
     30000
   );
 
-  return () =>
-    clearInterval(interval);
+  return () => clearInterval(interval);
 
 }, [race]);
 
