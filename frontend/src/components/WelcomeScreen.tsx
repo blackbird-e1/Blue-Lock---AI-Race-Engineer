@@ -105,7 +105,7 @@ export default function WelcomeScreen({
           </h2>
 
           <p className="text-gray-400 text-sm">
-            Upload a single telemetry CSV and
+            Upload a single telemetry CSV or .ibt and
             receive AI race coaching insights.
           </p>
         </button>
