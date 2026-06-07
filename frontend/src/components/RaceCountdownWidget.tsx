@@ -34,19 +34,19 @@ export default function RaceCountdownWidget() {
   return () => clearInterval(interval);
   }, []);
 
-//     useEffect(() => {
+
+// useEffect(() => {
 //   if (!race) return;
+
+//   const currentRace = race;
 
 //   async function loadLeaderboard() {
 //     try {
-//       const data =
-//         await getLeaderboard(
-//           race.race_name
-//         );
-
-//       setLeader(
-//         data.leader
+//       const data = await getLeaderboard(
+//         currentRace.race_name
 //       );
+
+//       setLeader(data.leader);
 //     } catch (error) {
 //       console.error(error);
 //     }
@@ -59,38 +59,9 @@ export default function RaceCountdownWidget() {
 //     30000
 //   );
 
-//   return () =>
-//     clearInterval(interval);
+//   return () => clearInterval(interval);
 
 // }, [race]);
-
-useEffect(() => {
-  if (!race) return;
-
-  const currentRace = race;
-
-  async function loadLeaderboard() {
-    try {
-      const data = await getLeaderboard(
-        currentRace.race_name
-      );
-
-      setLeader(data.leader);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  loadLeaderboard();
-
-  const interval = setInterval(
-    loadLeaderboard,
-    30000
-  );
-
-  return () => clearInterval(interval);
-
-}, [race]);
 
   useEffect(() => {
   if (!race) return;
@@ -201,7 +172,7 @@ useEffect(() => {
         <p className="text-gray-400 text-sm">
         {race.next_session_name}
         </p>
-        {race.is_live ? (
+        {/* {race.is_live ? (
             <button
               onClick={() => setShowLiveModal(true)}
               className="
@@ -219,6 +190,25 @@ useEffect(() => {
             >
               🔴 LIVE NOW
             </button>
+          ) : (
+            countdown
+          )} */}
+
+          {race.is_live ? (
+            <div
+              className="
+                mt-2
+                px-3
+                py-2
+                bg-[#e10600]
+                rounded-lg
+                text-white
+                text-sm
+                font-semibold
+              "
+            >
+              🔴 LIVE NOW
+            </div>
           ) : (
             countdown
           )}

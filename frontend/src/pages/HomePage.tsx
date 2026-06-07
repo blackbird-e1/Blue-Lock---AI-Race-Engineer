@@ -13,6 +13,7 @@ import { useTelemetryUpload } from '../hooks/useTelemetryUpload';
 import RaceCountdownWidget from '../components/RaceCountdownWidget';
 import { SignedIn } from "@clerk/clerk-react";
 import CalendarSidebar from "../components/CalendarSidebar";
+import ProfileView from "../components/ProfileView";
 
 export default function HomePage() {
   
@@ -51,6 +52,9 @@ export default function HomePage() {
   const [activeTab, setActiveTab] = useState<'telemetry' | 'laps'>(
   'telemetry');
   const { theme, toggleTheme } = useTheme();
+  const [activeView, setActiveView] = useState<
+    "analysis" | "profile"
+  >("analysis");
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -67,10 +71,17 @@ export default function HomePage() {
           }
           theme={theme}
           toggleTheme={toggleTheme}
+          onProfileClick={() =>
+            setActiveView("profile")
+          }
         />
 
       <main className="flex-1 overflow-y-auto">
-        {!sessionId || (mode === 'compare' && uploadedCount < 2) ? (
+        
+
+        {activeView === "analysis" && (
+          <>
+            {!sessionId || (mode === 'compare' && uploadedCount < 2) ? (
           <WelcomeScreen
             onUpload={uploadTelemetry}
             isLoading={isUploading}
@@ -113,13 +124,6 @@ export default function HomePage() {
             </div>)
             }
 
-            {/* {!comparisonResult && (
-              <TelemetryDashboard
-                telemetry={telemetry}
-                metrics={metrics}
-                issues={issues}
-              />
-            )} */}
             {!comparisonResult && (
               <>
                 <div className="mb-6">
@@ -264,9 +268,20 @@ export default function HomePage() {
             <div ref={bottomRef} />
           </div>
         )}
+          </>
+        )}
+
+        {activeView === "profile" && (
+          <ProfileView
+            onBack={() =>
+              setActiveView("analysis")
+            }
+          />
+        )}
       </main>
 
-      {sessionId &&
+      {activeView === "analysis" &&
+        sessionId &&
         !(mode === 'compare' && uploadedCount < 2) && (
           <div className="max-w-3xl mx-auto w-full">
             <ChatInput
@@ -274,7 +289,7 @@ export default function HomePage() {
               isLoading={isLoading}
             />
           </div>
-        )}
+      )}
 
       <RaceCountdownWidget />
 

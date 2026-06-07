@@ -89,6 +89,16 @@ export function useTelemetryUpload() {
           setTelemetry(data.telemetry);
           setMetrics(data.metrics);
 
+          localStorage.setItem(
+            "lastAnalysis",
+            JSON.stringify({
+              sessionId: data.session_id,
+              summary: data.summary,
+              issues: data.issues_detected,
+              timestamp: Date.now(),
+            })
+          );
+
           return data;
         }
 

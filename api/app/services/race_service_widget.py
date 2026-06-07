@@ -1,85 +1,136 @@
 import fastf1
-from datetime import datetime
-from zoneinfo import ZoneInfo
+
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+
 
 def get_next_race():
     current_year = datetime.now().year
 
-    schedule = fastf1.get_event_schedule(current_year)
+    schedule = fastf1.get_event_schedule(
+        current_year
+    )
 
     races = schedule[
         schedule["EventFormat"] != "testing"
     ]
 
     now_utc = datetime.utcnow()
-    is_live = False
 
+    # -------------------------
+    # Check if any session is LIVE
+    # -------------------------
     for _, race in races.iterrows():
 
-        race_date_utc = race["Session5DateUtc"]
+        sessions = [
+            ("FP1", race["Session1DateUtc"]),
+            ("FP2", race["Session2DateUtc"]),
+            ("FP3", race["Session3DateUtc"]),
+            ("Qualifying", race["Session4DateUtc"]),
+            ("Race", race["Session5DateUtc"]),
+        ]
 
-        race_start = race_date_utc
+        for session_name, session_time in sessions:
 
-        race_end = (
-            race_start +
-            timedelta(hours=2)
-        )
+            if session_time is None:
+                continue
 
-        if race_start <= now_utc <= race_end:
+            session_start = session_time
 
-            race_date_ist = (
-                race_start
-                .replace(tzinfo=ZoneInfo("UTC"))
-                .astimezone(
-                    ZoneInfo("Asia/Kolkata")
+            if session_name == "Race":
+                session_end = (
+                    session_start +
+                    timedelta(hours=2)
                 )
-            )
+            else:
+                session_end = (
+                    session_start +
+                    timedelta(hours=1)
+                )
 
-        if race_date_utc > now_utc:
-
-            race_date_ist = (
-                race_date_utc
-                .replace(tzinfo=ZoneInfo("UTC"))
-                .astimezone(ZoneInfo("Asia/Kolkata"))
-            )
-
-            sessions = [
-                ("FP1", race["Session1DateUtc"]),
-                ("FP2", race["Session2DateUtc"]),
-                ("FP3", race["Session3DateUtc"]),
-                ("Qualifying", race["Session4DateUtc"]),
-                ("Race", race["Session5DateUtc"]),
-            ]
-
-            next_session_name = None
-            next_session_time_ist = None
-
-            for session_name, session_time in sessions:
-                if session_name == "Race":
-                    race_start = session_time
-                    race_end = race_start + timedelta(hours=2)
-
-                    if race_start <= now_utc <= race_end:
-                        is_live = True
-                if session_time > now_utc:
-                    next_session_name = session_name
-
-                    next_session_time_ist = (
-                        session_time
-                        .replace(tzinfo=ZoneInfo("UTC"))
-                        .astimezone(ZoneInfo("Asia/Kolkata"))
-                        .isoformat()
+            if (
+                session_start
+                <= now_utc
+                <= session_end
+            ):
+                race_date_ist = (
+                    race["Session5DateUtc"]
+                    .replace(
+                        tzinfo=ZoneInfo("UTC")
                     )
+                    .astimezone(
+                        ZoneInfo("Asia/Kolkata")
+                    )
+                )
 
-                    break
+                return {
+                    "race_name": race["EventName"],
+                    "country": race["Country"],
+                    "location": race["Location"],
+                    "race_date_ist": race_date_ist.isoformat(),
+                    "next_session_name": session_name,
+                    "next_session_time_ist": (
+                        session_start
+                        .replace(
+                            tzinfo=ZoneInfo("UTC")
+                        )
+                        .astimezone(
+                            ZoneInfo("Asia/Kolkata")
+                        )
+                        .isoformat()
+                    ),
+                    "is_live": True
+                }
 
-            return {
-                "race_name": race["EventName"],
-                "country": race["Country"],
-                "location": race["Location"],
-                "race_date_ist": race_date_ist.isoformat(),
-                "next_session_name": next_session_name,
-                "next_session_time_ist": next_session_time_ist,
-                "is_live": is_live
-            }
+    # -------------------------
+    # No live session found
+    # Return next upcoming session
+    # -------------------------
+    for _, race in races.iterrows():
+
+        sessions = [
+            ("FP1", race["Session1DateUtc"]),
+            ("FP2", race["Session2DateUtc"]),
+            ("FP3", race["Session3DateUtc"]),
+            ("Qualifying", race["Session4DateUtc"]),
+            ("Race", race["Session5DateUtc"]),
+        ]
+
+        for session_name, session_time in sessions:
+
+            if (
+                session_time is not None
+                and session_time > now_utc
+            ):
+                race_date_ist = (
+                    race["Session5DateUtc"]
+                    .replace(
+                        tzinfo=ZoneInfo("UTC")
+                    )
+                    .astimezone(
+                        ZoneInfo("Asia/Kolkata")
+                    )
+                )
+
+                return {
+                    "race_name": race["EventName"],
+                    "country": race["Country"],
+                    "location": race["Location"],
+                    "race_date_ist": race_date_ist.isoformat(),
+                    "next_session_name": session_name,
+                    "next_session_time_ist": (
+                        session_time
+                        .replace(
+                            tzinfo=ZoneInfo("UTC")
+                        )
+                        .astimezone(
+                            ZoneInfo("Asia/Kolkata")
+                        )
+                        .isoformat()
+                    ),
+                    "is_live": False
+                }
+
+    return {
+        "error": "No races found"
+    }

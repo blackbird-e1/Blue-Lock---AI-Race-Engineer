@@ -87,3 +87,10 @@ export interface NextRace {
   next_session_time_ist: string;
   is_live: boolean;
 }
+
+export interface LastAnalysis {
+  sessionId: string;
+  summary: string;
+  issues: string[];
+  timestamp: number;
+}

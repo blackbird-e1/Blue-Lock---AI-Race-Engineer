@@ -4,12 +4,22 @@ import {
   SignInButton,
   useUser, 
 } from '@clerk/clerk-react';
-import { useNavigate } from "react-router-dom";
 
-export default function Header({ onClear, hasMessages, theme, toggleTheme, }: { onClear: () => void; hasMessages: boolean;  theme: "dark" | "light"; toggleTheme: () => void; }) {
+export default function Header({
+    onClear,
+    hasMessages,
+    theme,
+    toggleTheme,
+    onProfileClick,
+  }: {
+    onClear: () => void;
+    hasMessages: boolean;
+    theme: "dark" | "light";
+    toggleTheme: () => void;
+    onProfileClick: () => void;
+  }) {
 
   const { user } = useUser();
-  const navigate = useNavigate();
 
   return (
     <header className="flex items-center justify-between px-6 py-4 border-b border-gray-300 dark:border-[#2e2e2e] bg-white dark:bg-[#0f0f0f]">
@@ -41,7 +51,7 @@ export default function Header({ onClear, hasMessages, theme, toggleTheme, }: { 
         <img
           src={user?.imageUrl}
           alt="Profile"
-          onClick={() => navigate("/profile")}
+          onClick={onProfileClick}
           className="
             h-10
             w-10
