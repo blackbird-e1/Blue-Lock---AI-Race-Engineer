@@ -85,4 +85,5 @@ export interface NextRace {
 
   next_session_name: string;
   next_session_time_ist: string;
+  is_live: boolean;
 }

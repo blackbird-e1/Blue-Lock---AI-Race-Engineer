@@ -101,7 +101,11 @@ export default function CalendarSidebar() {
         "
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        {isOpen ? '←' : '📅'}
+        {isOpen ? (
+          <span style={{ color: 'white' }}>←</span>
+        ) : (
+          '📅'
+        )}
       </button>
 
       <div

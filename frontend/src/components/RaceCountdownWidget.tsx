@@ -25,6 +25,13 @@ export default function RaceCountdownWidget() {
     }
 
     loadRace();
+
+    const interval = setInterval(
+        loadRace,
+        60000
+  );
+
+  return () => clearInterval(interval);
   }, []);
 
 //     useEffect(() => {
@@ -88,8 +95,10 @@ useEffect(() => {
   useEffect(() => {
   if (!race) return;
 
-  console.log('SESSION:', race.next_session_name);
-  console.log('TIME:', race.next_session_time_ist);
+  if (race.is_live) {
+    setCountdown('LIVE');
+    return;
+  }
 
   const interval = setInterval(() => {
     const target = new Date(
@@ -101,34 +110,28 @@ useEffect(() => {
     const diff =
       target.getTime() - now.getTime();
 
-    if (diff <= 0) {
-      setCountdown('LIVE');
-      return;
-    }
+    const days = Math.floor(
+      diff / (1000 * 60 * 60 * 24)
+    );
 
-    // const days = Math.floor(
-    //   diff / (1000 * 60 * 60 * 24)
-    // );
+    const hours = Math.floor(
+      (diff % (1000 * 60 * 60 * 24))
+      / (1000 * 60 * 60)
+    );
 
-    // const hours = Math.floor(
-    //   (diff % (1000 * 60 * 60 * 24))
-    //   / (1000 * 60 * 60)
-    // );
+    const minutes = Math.floor(
+        (diff % (1000 * 60 * 60))
+        / (1000 * 60)
+      );
 
-    // const minutes = Math.floor(
-    //   (diff % (1000 * 60 * 60))
-    //   / (1000 * 60)
-    // );
+      setCountdown(
+        `${days}D ${hours}H ${minutes}M`
+      );
+    }, 1000);
 
-    // setCountdown(
-    //   `${days}D ${hours}H ${minutes}M`
-    // );
+    return () => clearInterval(interval);
 
-    setCountdown('LIVE');
-  }, 1000);
-
-  return () => clearInterval(interval);
-}, [race]);
+  }, [race]);
 
   if (!race) return null;
 
@@ -198,7 +201,7 @@ useEffect(() => {
         <p className="text-gray-400 text-sm">
         {race.next_session_name}
         </p>
-        {countdown === 'LIVE' ? (
+        {race.is_live ? (
             <button
               onClick={() => setShowLiveModal(true)}
               className="
@@ -249,20 +252,26 @@ useEffect(() => {
                   p-6
                 "
               >
-                <div className="flex justify-between">
-                  <h2 className="text-white font-bold">
-                    🔴 Live Race
-                  </h2>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h2 className="text-white font-bold">
+                      🔴 {race.race_name}
+                    </h2>
+
+                    <p className="text-gray-400 text-sm">
+                      {race.location}
+                    </p>
+                  </div>
 
                   <button
                     onClick={() =>
                       setShowLiveModal(false)
                     }
                     className="
-                    text-gray-400
-                    hover:text-white
-                    cursor-pointer
-                  "
+                      text-gray-400
+                      hover:text-white
+                      cursor-pointer
+                    "
                   >
                     ✕
                   </button>

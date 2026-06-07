@@ -43,8 +43,10 @@ export default function SampleModal({
         bg-black/70
         backdrop-blur-sm
       "
+      onClick={onClose}
     >
       <div
+        onClick={(e) => e.stopPropagation()}
         className="
           w-full max-w-lg
           mx-4

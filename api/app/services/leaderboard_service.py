@@ -5,8 +5,11 @@ from datetime import datetime
 def get_leaderboard(race_name: str):
     try:
         session = fastf1.get_session(
-            datetime.now().year,
-            race_name,
+            # datetime.now().year,
+            # race_name,
+            # "R"
+            2025,
+            "Monaco Grand Prix",
             "R"
         )
 

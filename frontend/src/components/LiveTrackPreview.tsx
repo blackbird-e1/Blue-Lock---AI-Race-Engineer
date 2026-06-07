@@ -38,9 +38,6 @@ export default function LiveTrackPreview({
         raceName
       );
 
-      console.log('TRACK LOADED');
-      console.log(data);
-
       setTrack(data);
     } catch (error) {
       console.error(error);
@@ -57,9 +54,6 @@ export default function LiveTrackPreview({
           raceName
         );
 
-            console.log("DRIVER API RESPONSE:");
-            console.log(data);
-
       setDrivers(data.drivers);
         } catch (error) {
           console.error(error);
@@ -70,8 +64,6 @@ export default function LiveTrackPreview({
     }, [raceName]);
 
     useEffect(() => {
-  console.log("DRIVERS STATE:");
-  console.log(drivers);
 }, [drivers]);
 
     useEffect(() => {
@@ -85,8 +77,7 @@ export default function LiveTrackPreview({
     }, [drivers]);
 
     useEffect(() => {
-  console.log("CAR PROGRESS:");
-  console.log(carProgress);
+ 
     }, [carProgress]);  
 
     if (!track) {
@@ -126,18 +117,6 @@ const normalizedPoints = track.x.map(
     };
   }
 );
-
-  // const car1Index =
-  // Math.floor(car1Progress) % normalizedPoints.length;
-
-  // const car1 =
-  // normalizedPoints[car1Index];
-  
-  // const car2Index =
-  // Math.floor(car2Progress) % normalizedPoints.length;
-
-  // const car2 =
-  // normalizedPoints[car2Index];
 
 const pathData = normalizedPoints
   .map((point, index) =>
@@ -198,38 +177,6 @@ const pathData = normalizedPoints
         </text>
       </g>
     ))}
-
-        {/* <circle
-          cx={car1.x}
-          cy={car1.y}
-          r="7"
-          fill="#f59e0b"
-        />
-
-        <text
-          x={car1.x + 12}
-          y={car1.y - 10}
-          fill="white"
-          fontSize="12"
-        >
-          NOR
-        </text>
-
-        <circle
-          cx={car2.x}
-          cy={car2.y}
-          r="7"
-          fill="#ef4444"
-        />
-
-        <text
-          x={car2.x + 12}
-          y={car2.y - 10}
-          fill="white"
-          fontSize="12"
-        >
-          VER
-        </text> */}
       </svg>
     </div>
   );
