@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getNextRace } from '../services/telemetryService';
 import type { NextRace } from '../types';
 import LiveTrackPreview from './LiveTrackPreview';
-import { getLeaderboard } from '../services/leaderboardService';
+// import { getLeaderboard } from '../services/leaderboardService';
 
 export default function RaceCountdownWidget() {
   const [race, setRace] = useState<NextRace | null>(null);
@@ -11,8 +11,8 @@ export default function RaceCountdownWidget() {
   const [showLiveModal, setShowLiveModal] =
   useState(false);
 
-  const [leader, setLeader] =
-    useState('');
+  // const [leader, setLeader] =
+  //   useState('');
 
   useEffect(() => {
     async function loadRace() {
@@ -273,9 +273,9 @@ export default function RaceCountdownWidget() {
                   />
 
                   
-                <div className="mt-4 text-white text-sm">
+                {/* <div className="mt-4 text-white text-sm">
                   🏁 Leader: {leader}
-                </div>
+                </div> */}
                 </div>
               </div>
             </div>
