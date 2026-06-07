@@ -16,6 +16,8 @@ from app.routers.compare import router as compare_router
 from app.routers.race_widget import router as race_widget_router
 from app.routers.calendar import router as calendar_router
 from app.routers.track import router as track_router
+from app.routers.drivers import router as driver_router
+from app.routers.leaderboard import router as leaderboard_router
 
 logging.basicConfig(
     level=logging.DEBUG if not settings.is_production else logging.INFO,
@@ -61,6 +63,8 @@ app.include_router(compare_router, prefix="/api/v1")
 app.include_router(race_widget_router, prefix="/api/v1")
 app.include_router(calendar_router, prefix="/api/v1")
 app.include_router(track_router, prefix="/api/v1")
+app.include_router(driver_router, prefix="/api/v1") 
+app.include_router(leaderboard_router, prefix="/api/v1") 
 
 @app.exception_handler(Exception)
 async def unhandled_exception_handler(request: Request, exc: Exception):
