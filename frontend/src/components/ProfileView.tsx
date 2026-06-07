@@ -3,7 +3,7 @@ import {
   useUser,
   SignOutButton,
 } from "@clerk/clerk-react";
-import { getDrivers } from "../services/driverService";
+// import { getDrivers } from "../services/driverService";
 import type { LastAnalysis } from "../types";
 
 type Props = {
