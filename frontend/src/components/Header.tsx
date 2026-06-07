@@ -41,7 +41,21 @@ export default function Header({
       <div className="flex items-center gap-2">
       <SignedOut>
         <SignInButton mode="modal">
-          <button className="h-[36px] px-3 rounded border border-gray-300 dark:border-[#2e2e2e] text-xs hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors cursor-pointer">
+          <button className="
+            h-[36px]
+            px-3
+            rounded
+            border
+            border-gray-300
+            dark:border-[#2e2e2e]
+            text-xs
+            text-black
+            dark:text-white
+            hover:bg-gray-100
+            dark:hover:bg-[#1a1a1a]
+            transition-colors
+            cursor-pointer
+          ">
             Sign In
           </button>
         </SignInButton>

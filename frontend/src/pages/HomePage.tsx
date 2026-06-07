@@ -14,6 +14,7 @@ import RaceCountdownWidget from '../components/RaceCountdownWidget';
 import { SignedIn } from "@clerk/clerk-react";
 import CalendarSidebar from "../components/CalendarSidebar";
 import ProfileView from "../components/ProfileView";
+import { getDrivers } from '../services/driverService';
 
 export default function HomePage() {
   
@@ -55,10 +56,32 @@ export default function HomePage() {
   const [activeView, setActiveView] = useState<
     "analysis" | "profile"
   >("analysis");
+  const [drivers, setDrivers] = useState<
+    string[]
+  >([]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
+
+  useEffect(() => {
+    async function preloadDrivers() {
+      try {
+        const data = await getDrivers(
+          "Monaco Grand Prix"
+        );
+
+        setDrivers(data.drivers);
+      } catch (error) {
+        console.error(
+          "Failed to preload drivers",
+          error
+        );
+      }
+    }
+
+    preloadDrivers();
+  }, []);
 
   return (
     <div className="flex flex-col h-full bg-white dark:bg-[#0f0f0f]">
@@ -276,6 +299,7 @@ export default function HomePage() {
             onBack={() =>
               setActiveView("analysis")
             }
+            drivers={drivers}
           />
         )}
       </main>

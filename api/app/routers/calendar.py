@@ -1,4 +1,5 @@
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from fastapi import APIRouter
 import fastf1
@@ -16,7 +17,9 @@ def get_calendar():
     schedule = fastf1.get_event_schedule(current_year)
 
     races = []
-    today = datetime.now().date()
+    today = datetime.now(
+        ZoneInfo("Asia/Kolkata")
+    ).date()
 
     for _, race in schedule.iterrows():
         event_date = race["EventDate"].date()

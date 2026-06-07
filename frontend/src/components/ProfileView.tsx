@@ -8,19 +8,17 @@ import type { LastAnalysis } from "../types";
 
 type Props = {
   onBack: () => void;
+  drivers: string[];
 };
 
 export default function ProfilePage({
   onBack,
+  drivers,
 }: Props) {
   const { user } = useUser();
 
   const [selectedDriver, setSelectedDriver] =
     useState("");
-
-  const [drivers, setDrivers] = useState<
-    string[]
-  >([]);
 
   const [lastAnalysis, setLastAnalysis] =
     useState<LastAnalysis | null>(null);
@@ -32,23 +30,6 @@ export default function ProfilePage({
     if (savedDriver) {
       setSelectedDriver(savedDriver);
     }
-
-    async function loadDrivers() {
-      try {
-        const data = await getDrivers(
-          "Monaco Grand Prix"
-        );
-
-        setDrivers(data.drivers);
-      } catch (error) {
-        console.error(
-          "Failed to load drivers",
-          error
-        );
-      }
-    }
-
-    loadDrivers();
   }, []);
 
   useEffect(() => {
