@@ -115,7 +115,7 @@ export default function HomePage() {
         ) : (
           <div className="max-w-3xl mx-auto py-6 px-4">
             {!comparisonResult && (
-              <div className="mb-6 bg-white dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-2xl p-5">
+              <div className="mb-6 bg-white dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-2xl p-5 shadow-md dark:shadow-none">
               <h2 className="text-lg font-semibold text-black dark:text-white mb-3">
                 Telemetry Analysis
               </h2>

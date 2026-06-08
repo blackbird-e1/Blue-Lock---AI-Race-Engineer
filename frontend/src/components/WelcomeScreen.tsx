@@ -91,7 +91,8 @@ export default function WelcomeScreen({
             bg-white
             dark:bg-[#161616]
             border
-            border-gray-300
+            shadow-xl
+            shadow-black/10
             dark:border-[#2e2e2e]
             hover:border-[#e10600]
             rounded-2xl
@@ -123,7 +124,8 @@ export default function WelcomeScreen({
           bg-white
           dark:bg-[#161616]
           border
-          border-gray-300
+          shadow-xl
+          shadow-black/10
           dark:border-[#2e2e2e]
           hover:border-[#2563eb]
           rounded-2xl

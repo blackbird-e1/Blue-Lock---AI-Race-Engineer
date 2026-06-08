@@ -7,8 +7,8 @@ import {
   Tooltip,
   CartesianGrid,
 } from 'recharts';
-
 import type { TelemetryPoint, TelemetryMetrics } from '../types';
+import { useTheme } from '../hooks/useTheme';
 
 interface TelemetryDashboardProps {
   telemetry: TelemetryPoint[];
@@ -24,7 +24,19 @@ function StatCard({
   value: string | number;
 }) {
   return (
-    <div className="bg-white dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-xl p-4">
+    <div
+      className="
+        bg-white
+        dark:bg-[#161616]
+        border
+        border-gray-200
+        dark:border-[#2e2e2e]
+        shadow-md
+        dark:shadow-none
+        rounded-2xl
+        p-5
+      "
+    >
       <p className="text-xs text-gray-600 dark:text-gray-400">
         {title}
       </p>
@@ -45,7 +57,9 @@ export default function TelemetryDashboard({
   const maxSpeed = Math.max(...telemetry.map((t) => t.speed));
   const avgSpeed =
     telemetry.reduce((sum, t) => sum + t.speed, 0) / telemetry.length;
-
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  
   return (
     <div className="space-y-6 mb-8">
       <div>
@@ -76,17 +90,30 @@ export default function TelemetryDashboard({
         </div>
       </div>
 
-      <div className="bg-white dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-2xl p-5">
+      <div
+        className="
+          bg-white
+          dark:bg-[#161616]
+          border
+          border-gray-200
+          dark:border-[#2e2e2e]
+          shadow-md
+          dark:shadow-none
+          rounded-2xl
+          p-5
+        "
+      >
         <h3 className="text-black dark:text-white font-medium mb-4">
           Speed vs Time
         </h3>
 
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer   key={`speed-${theme}`} 
+          width="100%" height={300}>
           <LineChart data={telemetry}>
-            <CartesianGrid stroke="#2a2a2a" />
-            <XAxis dataKey="time" stroke="#888" />
-            <YAxis stroke="#888" />
-            <Tooltip />
+            <CartesianGrid stroke={isDark ? "#2a2a2a" : "#e5e7eb"} />
+            <XAxis dataKey="time" stroke={isDark ? "#888" : "#6b7280"} />
+            <YAxis stroke={isDark ? "#888" : "#6b7280"} />
+            <Tooltip/>
             <Line
               type="monotone"
               dataKey="speed"
@@ -98,17 +125,29 @@ export default function TelemetryDashboard({
         </ResponsiveContainer>
       </div>
 
-      <div className="bg-white dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-2xl p-5">
+      <div
+        className="
+          bg-white
+          dark:bg-[#161616]
+          border
+          border-gray-200
+          dark:border-[#2e2e2e]
+          shadow-md
+          dark:shadow-none
+          rounded-2xl
+          p-5
+        "
+      >
         <h3 className="text-black dark:text-white font-medium mb-4">
           Throttle / Brake Analysis
         </h3>
 
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={telemetry}>
-            <CartesianGrid stroke="#2a2a2a" />
-            <XAxis dataKey="time" stroke="#888" />
-            <YAxis stroke="#888" />
-            <Tooltip />
+            <CartesianGrid stroke={isDark ? "#2a2a2a" : "#e5e7eb"} />
+            <XAxis dataKey="time" stroke={isDark ? "#888" : "#6b7280"} />
+            <YAxis stroke={isDark ? "#888" : "#6b7280"} />
+            <Tooltip/>
             <Line
               type="monotone"
               dataKey="throttle"
@@ -127,17 +166,29 @@ export default function TelemetryDashboard({
         </ResponsiveContainer>
       </div>
 
-      <div className="bg-white dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-2xl p-5">
+      <div
+        className="
+          bg-white
+          dark:bg-[#161616]
+          border
+          border-gray-200
+          dark:border-[#2e2e2e]
+          shadow-md
+          dark:shadow-none
+          rounded-2xl
+          p-5
+        "
+      >
         <h3 className="text-black dark:text-white font-medium mb-4">
           Steering Stability
         </h3>
 
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={telemetry}>
-            <CartesianGrid stroke="#2a2a2a" />
-            <XAxis dataKey="time" stroke="#888" />
-            <YAxis stroke="#888" />
-            <Tooltip />
+            <CartesianGrid stroke={isDark ? "#2a2a2a" : "#e5e7eb"} />
+            <XAxis dataKey="time" stroke={isDark ? "#888" : "#6b7280"} />
+            <YAxis stroke={isDark ? "#888" : "#6b7280"} />
+            <Tooltip/>
             <Line
               type="monotone"
               dataKey="steering"
@@ -149,17 +200,29 @@ export default function TelemetryDashboard({
         </ResponsiveContainer>
       </div>
 
-      <div className="bg-white dark:bg-[#161616] border border-gray-300 dark:border-[#2e2e2e] rounded-2xl p-5">
+      <div
+        className="
+          bg-white
+          dark:bg-[#161616]
+          border
+          border-gray-200
+          dark:border-[#2e2e2e]
+          shadow-md
+          dark:shadow-none
+          rounded-2xl
+          p-5
+        "
+      >
         <h3 className="text-black dark:text-white font-medium mb-4">
           Gear Change Timeline
         </h3>
 
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={telemetry}>
-            <CartesianGrid stroke="#2a2a2a" />
-            <XAxis dataKey="time" stroke="#888" />
-            <YAxis stroke="#888" />
-            <Tooltip />
+            <CartesianGrid stroke={isDark ? "#2a2a2a" : "#e5e7eb"} />
+            <XAxis dataKey="time" stroke={isDark ? "#888" : "#6b7280"} />
+            <YAxis stroke={isDark ? "#888" : "#6b7280"} />
+            <Tooltip/>
             <Line
               type="stepAfter"
               dataKey="gear"

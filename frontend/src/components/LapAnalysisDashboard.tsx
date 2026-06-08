@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import { useTheme } from '../hooks/useTheme';
 import {
   ResponsiveContainer,
   LineChart,
@@ -63,6 +63,8 @@ export default function LapAnalysisDashboard({
     {
     const [lapData, setLapData] =
     useState<LapAnalysisResponse | null>(null);
+    const { theme } = useTheme();
+    const isDark = theme === "dark";
 
     useEffect(() => {
         if (!sessionId) {
@@ -143,6 +145,8 @@ export default function LapAnalysisDashboard({
                     text-sm
                     text-black
                     dark:text-white
+                    shadow-md
+                    dark:shadow-none
                 "
                 >
                 <option>Fastest Lap</option>
@@ -176,9 +180,9 @@ export default function LapAnalysisDashboard({
 
             <ResponsiveContainer width="100%" height={320}>
             <LineChart data={lapData ? lapData.comparisonData : []}>
-                <CartesianGrid stroke="#2a2a2a" />
-                <XAxis dataKey="time" stroke="#888" />
-                <YAxis stroke="#888" />
+                <CartesianGrid stroke={isDark ? "#2a2a2a" : "#e5e7eb"} />
+                <XAxis dataKey="time" stroke={isDark ? "#888" : "#6b7280"} />
+                <YAxis stroke={isDark ? "#888" : "#6b7280"} />
                 <Tooltip />
                 <Line
                 type="monotone"
