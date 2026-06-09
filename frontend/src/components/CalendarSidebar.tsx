@@ -29,36 +29,31 @@ export default function CalendarSidebar() {
         points: 0,
       });
 
+  const [isSidebarReady, setIsSidebarReady] =
+    useState(false);
+
   useEffect(() => {
-    async function loadCalendar() {
-        try {
-        const data = await getCalendar();
-        setRaces(data);
-        } catch (error) {
+    async function loadSidebarData() {
+      try {
+        const [calendar, wdc, wcc] =
+          await Promise.all([
+            getCalendar(),
+            getWdc(),
+            getWcc(),
+          ]);
+
+        setRaces(calendar);
+        setWdcData(wdc);
+        setWccData(wcc);
+
+        setIsSidebarReady(true);
+      } catch (error) {
         console.error(error);
-        }
+      } 
     }
-    loadCalendar();
-    }, []);
 
-    useEffect(() => {
-      async function loadWdc() {
-        const data = await getWdc();
-        setWdcData(data);
-      }
-
-      loadWdc();
-    }, []);
-
-    useEffect(() => {
-      async function loadWcc() {
-        const data = await getWcc();
-        setWccData(data);
-      }
-
-      loadWcc();
-    }, []);
-
+    loadSidebarData();
+  }, []);
     
   const upcomingRaces = races.filter(
     (race) => race.status === 'upcoming'
@@ -83,8 +78,9 @@ export default function CalendarSidebar() {
 
   return (
     <>
-      <button
-        className="
+    {isSidebarReady && (
+        <button
+          className="
           fixed
           left-0
           top-1/2
@@ -107,6 +103,7 @@ export default function CalendarSidebar() {
           '📅'
         )}
       </button>
+    )}
 
       <div
         className={[

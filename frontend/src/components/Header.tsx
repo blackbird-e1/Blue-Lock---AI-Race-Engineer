@@ -78,12 +78,12 @@ export default function Header({
           "
         />
       </SignedIn>
-      <button
+      {/* <button
         onClick={toggleTheme}
         className="h-[36px] w-[36px] rounded border border-gray-300 dark:border-[#2e2e2e] hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors cursor-pointer flex items-center justify-center text-sm"
       >
         {theme === "dark" ? "☀️" : "🌙"}
-      </button>
+      </button> */}
 
       {hasMessages && (
         <button

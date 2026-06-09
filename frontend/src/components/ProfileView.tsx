@@ -5,15 +5,29 @@ import {
 } from "@clerk/clerk-react";
 // import { getDrivers } from "../services/driverService";
 import type { LastAnalysis } from "../types";
+import ReportModal from "./ReportModal";
 
 type Props = {
   onBack: () => void;
-  drivers: string[];
+  // drivers: string[];
 };
+
+const popularDrivers = [
+  "Michael Schumacher",
+  "Lewis Hamilton",
+  "Ayrton Senna",
+  "Max Verstappen",
+  "Sebastian Vettel",
+  "Fernando Alonso",
+  "Alain Prost",
+  "Niki Lauda",
+  "Juan Manuel Fangio",
+  "Kimi Räikkönen",
+];
 
 export default function ProfilePage({
   onBack,
-  drivers,
+  // drivers,
 }: Props) {
   const { user } = useUser();
 
@@ -22,6 +36,9 @@ export default function ProfilePage({
 
   const [lastAnalysis, setLastAnalysis] =
     useState<LastAnalysis | null>(null);
+
+  const [showReport, setShowReport] =
+    useState(false);
 
   useEffect(() => {
     const savedDriver =
@@ -151,13 +168,22 @@ export default function ProfilePage({
                 Select Driver
             </option>
 
-            {drivers.map((driver) => (
+            {/* {drivers.map((driver) => (
                 <option
                 key={driver}
                 value={driver}
                 >
                 {driver}
                 </option>
+            ))} */}
+
+            {popularDrivers.map((driver) => (
+              <option
+                key={driver}
+                value={driver}
+              >
+                {driver}
+              </option>
             ))}
             </select>
         </div>
@@ -210,18 +236,19 @@ export default function ProfilePage({
             </div>
 
             <button
-                className="
-                mt-6
-                px-4
-                py-2
-                rounded-lg
-                bg-[#e10600]
-                hover:bg-[#c90500]
-                transition-colors
-                cursor-pointer
-                "
+              onClick={() => setShowReport(true)}
+              className="
+              mt-6
+              px-4
+              py-2
+              rounded-lg
+              bg-[#e10600]
+              hover:bg-[#c90500]
+              transition-colors
+              cursor-pointer
+              "
             >
-                View Report
+              View Report
             </button>
             </div>
         )}
@@ -243,6 +270,13 @@ export default function ProfilePage({
             Sign Out
             </button>
         </SignOutButton>
+
+        {lastAnalysis && (
+          <ReportModal
+            isOpen={showReport}
+            onClose={() => setShowReport(false)}
+          />
+        )}
         </div>
     </div>
     );
