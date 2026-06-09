@@ -8,14 +8,14 @@ import {
 export default function Header({
     onClear,
     hasMessages,
-    theme,
-    toggleTheme,
+    // theme,
+    // toggleTheme,
     onProfileClick,
   }: {
     onClear: () => void;
     hasMessages: boolean;
-    theme: "dark" | "light";
-    toggleTheme: () => void;
+    // theme: "dark" | "light";
+    // toggleTheme: () => void;
     onProfileClick: () => void;
   }) {
 

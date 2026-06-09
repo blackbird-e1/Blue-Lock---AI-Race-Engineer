@@ -8,13 +8,13 @@ import WelcomeScreen from '../components/WelcomeScreen';
 import TelemetryDashboard from '../components/TelemetryDashboard';
 import ComparisonDashboard from '../components/ComparisonDashboard';
 import LapAnalysisDashboard from '../components/LapAnalysisDashboard';
-import { useTheme } from '../hooks/useTheme';
+// import { useTheme } from '../hooks/useTheme';
 import { useTelemetryUpload } from '../hooks/useTelemetryUpload';
 import RaceCountdownWidget from '../components/RaceCountdownWidget';
 import { SignedIn } from "@clerk/clerk-react";
 import CalendarSidebar from "../components/CalendarSidebar";
 import ProfileView from "../components/ProfileView";
-import { getDrivers } from '../services/driverService';
+// import { getDrivers } from '../services/driverService';
 
 export default function HomePage() {
   
@@ -52,36 +52,36 @@ export default function HomePage() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<'telemetry' | 'laps'>(
   'telemetry');
-  const { theme, toggleTheme } = useTheme();
+  // const { theme, toggleTheme } = useTheme();
   const [activeView, setActiveView] = useState<
     "analysis" | "profile"
   >("analysis");
-  const [drivers, setDrivers] = useState<
-    string[]
-  >([]);
+  // const [drivers, setDrivers] = useState<
+  //   string[]
+  // >([]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
 
-  useEffect(() => {
-    async function preloadDrivers() {
-      try {
-        const data = await getDrivers(
-          "Monaco Grand Prix"
-        );
+  // useEffect(() => {
+  //   async function preloadDrivers() {
+  //     try {
+  //       const data = await getDrivers(
+  //         "Monaco Grand Prix"
+  //       );
 
-        setDrivers(data.drivers);
-      } catch (error) {
-        console.error(
-          "Failed to preload drivers",
-          error
-        );
-      }
-    }
+  //       setDrivers(data.drivers);
+  //     } catch (error) {
+  //       console.error(
+  //         "Failed to preload drivers",
+  //         error
+  //       );
+  //     }
+  //   }
 
-    preloadDrivers();
-  }, []);
+  //   preloadDrivers();
+  // }, []);
 
   return (
     <div className="flex flex-col h-full bg-white dark:bg-[#0f0f0f]">
@@ -92,8 +92,8 @@ export default function HomePage() {
             !!sessionId ||
             !!comparisonResult
           }
-          theme={theme}
-          toggleTheme={toggleTheme}
+          // theme={theme}
+          // toggleTheme={toggleTheme}
           onProfileClick={() =>
             setActiveView("profile")
           }
@@ -299,7 +299,7 @@ export default function HomePage() {
             onBack={() =>
               setActiveView("analysis")
             }
-            drivers={drivers}
+            // drivers={drivers}
           />
         )}
       </main>
