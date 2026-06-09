@@ -95,6 +95,7 @@ export function useTelemetryUpload() {
               sessionId: data.session_id,
               summary: data.summary,
               issues: data.issues_detected,
+              metrics: data.metrics,
               timestamp: Date.now(),
             })
           );

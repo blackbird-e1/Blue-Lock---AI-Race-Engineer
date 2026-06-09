@@ -5,7 +5,9 @@ import {
 } from "@clerk/clerk-react";
 // import { getDrivers } from "../services/driverService";
 import type { LastAnalysis } from "../types";
-import ReportModal from "./ReportModal";
+import ReportModal, {
+  type Report,
+} from "./ReportModal";
 
 type Props = {
   onBack: () => void;
@@ -40,6 +42,9 @@ export default function ProfilePage({
   const [showReport, setShowReport] =
     useState(false);
 
+    const [report, setReport] =
+  useState<Report | null>(null);
+
   useEffect(() => {
     const savedDriver =
       localStorage.getItem("favoriteDriver");
@@ -64,7 +69,53 @@ export default function ProfilePage({
 
     if (saved) {
       try {
-        setLastAnalysis(JSON.parse(saved));
+        const analysis =
+          JSON.parse(saved);
+
+        setLastAnalysis(analysis);
+
+        setReport({
+          overallAssessment:
+            analysis.summary,
+
+          findings:
+            analysis.issues.map(
+              (issue: string) => ({
+                title: issue,
+                description: issue,
+                severity: "medium",
+              })
+            ),
+
+          metrics: {
+            throttle: Math.round(
+              analysis.metrics.avg_throttle
+            ),
+
+            braking: Math.round(
+              analysis.metrics.avg_brake
+            ),
+
+            gearUsage: Math.round(
+              analysis.metrics.high_rpm_ratio
+            ),
+
+            consistency: Math.max(
+              0,
+              100 -
+                Math.round(
+                  analysis.metrics.avg_steering_change
+                )
+            ),
+          },
+
+          recommendations: [
+            "Review detected issues.",
+            "Practice smoother gear transitions.",
+            "Compare against benchmark laps.",
+          ],
+        });
+
       } catch (error) {
         console.error(
           "Failed to parse last analysis",
@@ -271,12 +322,11 @@ export default function ProfilePage({
             </button>
         </SignOutButton>
 
-        {lastAnalysis && (
-          <ReportModal
-            isOpen={showReport}
-            onClose={() => setShowReport(false)}
-          />
-        )}
+        <ReportModal
+          isOpen={showReport}
+          onClose={() => setShowReport(false)}
+          report={report}
+        />
         </div>
     </div>
     );

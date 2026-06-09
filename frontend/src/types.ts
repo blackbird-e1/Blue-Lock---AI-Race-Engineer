@@ -92,5 +92,6 @@ export interface LastAnalysis {
   sessionId: string;
   summary: string;
   issues: string[];
+  metrics: TelemetryMetrics;
   timestamp: number;
 }
