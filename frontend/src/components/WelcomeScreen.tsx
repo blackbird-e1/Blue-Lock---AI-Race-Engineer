@@ -4,6 +4,7 @@ import AboutModal from './AboutModal';
 import SampleModal from './SampleModal';
 import F1Loader from './F1Loader';
 import RaceCountdownWidget from './RaceCountdownWidget';
+import F1ComponentsExplorer from "./F1ComponentsExplorer";
 
 interface WelcomeScreenProps {
   onUpload: (file: File) => Promise<unknown>;
@@ -28,6 +29,13 @@ export default function WelcomeScreen({
   const inputRef = useRef<HTMLInputElement>(null);
   const [showAbout, setShowAbout] = useState(false);
   const [showSample, setShowSample] = useState(false);
+  const [showComponents, setShowComponents] = useState(false);
+
+  if (showComponents) {
+    return <F1ComponentsExplorer 
+            onBack={() => setShowComponents(false)}
+          />;
+  }
 
   async function handleFileChange(
     e: React.ChangeEvent<HTMLInputElement>
@@ -141,6 +149,33 @@ export default function WelcomeScreen({
           <p className="text-gray-400 text-sm">
             Upload two telemetry sessions and compare
             driver performance side-by-side.
+          </p>
+        </button>
+      </div>
+
+      <div className="mt-6">
+        <button
+          onClick={() => setShowComponents(true)}
+          className="
+            mt-6
+            w-72
+            bg-white
+            dark:bg-[#161616]
+            border
+            border-[#2e2e2e]
+            rounded-xl
+            p-4
+            text-center
+            hover:border-[#e10600]
+            transition-all
+          "
+        >
+          <h3 className="text-white font-semibold">
+            F1 Components Explorer
+          </h3>
+
+          <p className="text-gray-400 text-sm mt-1">
+            Learn how an F1 car works.
           </p>
         </button>
       </div>

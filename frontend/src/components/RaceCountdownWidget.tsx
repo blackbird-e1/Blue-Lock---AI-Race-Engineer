@@ -11,9 +11,6 @@ export default function RaceCountdownWidget() {
   const [showLiveModal, setShowLiveModal] =
   useState(false);
 
-  // const [leader, setLeader] =
-  //   useState('');
-
   useEffect(() => {
     async function loadRace() {
       try {
