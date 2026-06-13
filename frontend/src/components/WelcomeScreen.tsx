@@ -5,6 +5,7 @@ import SampleModal from './SampleModal';
 import F1Loader from './F1Loader';
 import RaceCountdownWidget from './RaceCountdownWidget';
 import F1ComponentsExplorer from "./F1ComponentsExplorer";
+import F1TyreExplorer from "./F1TyreExplorer";
 
 interface WelcomeScreenProps {
   onUpload: (file: File) => Promise<unknown>;
@@ -30,11 +31,20 @@ export default function WelcomeScreen({
   const [showAbout, setShowAbout] = useState(false);
   const [showSample, setShowSample] = useState(false);
   const [showComponents, setShowComponents] = useState(false);
+  const [showTyres, setShowTyres] = useState(false);
 
   if (showComponents) {
     return <F1ComponentsExplorer 
             onBack={() => setShowComponents(false)}
           />;
+  }
+
+  if (showTyres) {
+    return (
+      <F1TyreExplorer
+        onBack={() => setShowTyres(false)}
+      />
+    );
   }
 
   async function handleFileChange(
@@ -88,7 +98,7 @@ export default function WelcomeScreen({
         onChange={handleFileChange}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-w-3xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-w-4xl">
         <button
           onClick={() => {
             setMode('single');
@@ -104,7 +114,7 @@ export default function WelcomeScreen({
             dark:border-[#2e2e2e]
             hover:border-[#e10600]
             rounded-2xl
-            p-6
+            p-8
             text-left
             transition-all
             "
@@ -137,7 +147,7 @@ export default function WelcomeScreen({
           dark:border-[#2e2e2e]
           hover:border-[#2563eb]
           rounded-2xl
-          p-6
+          p-8
           text-left
           transition-all
           "
@@ -152,8 +162,8 @@ export default function WelcomeScreen({
           </p>
         </button>
       </div>
-
-      <div className="mt-6">
+      
+      <div className="mt-6 flex flex-col items-center">
         <button
           onClick={() => setShowComponents(true)}
           className="
@@ -178,9 +188,34 @@ export default function WelcomeScreen({
             Learn how an F1 car works.
           </p>
         </button>
+
+        <button
+          onClick={() => setShowTyres(true)}
+          className="
+            mt-4
+            w-72
+            bg-white
+            dark:bg-[#161616]
+            border
+            border-[#2e2e2e]
+            rounded-xl
+            p-4
+            text-center
+            hover:border-[#f59e0b]
+            transition-all
+          "
+        >
+          <h3 className="text-white font-semibold">
+            F1 Tyre Intelligence
+          </h3>
+
+          <p className="text-gray-400 text-sm mt-1">
+            Learn compounds, degradation and strategy.
+          </p>
+        </button>
       </div>
 
-      {mode && (
+      {/* {mode && (
         <p className="mt-6 text-sm text-gray-500">
           {isLoading
             ? 'Uploading telemetry...'
@@ -192,7 +227,7 @@ export default function WelcomeScreen({
             ? '✓ Driver A telemetry uploaded. Upload Driver B telemetry to start comparison.'
             : 'Comparison complete.'}
         </p>
-      )}
+      )} */}
 
       <div className="mt-10 flex flex-col items-center gap-6">
         <TelemetryHeroAnimation />
