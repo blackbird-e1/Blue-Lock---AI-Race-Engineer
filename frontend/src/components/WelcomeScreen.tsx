@@ -10,7 +10,7 @@ import F1TyreExplorer from "./F1TyreExplorer";
 interface WelcomeScreenProps {
   onUpload: (file: File) => Promise<unknown>;
   isLoading: boolean;
-  mode: 'single' | 'compare' | null;
+  // mode: 'single' | 'compare' | null;
   setMode: (mode: 'single' | 'compare') => void;
   uploadedCount: number;
 }
@@ -18,7 +18,7 @@ interface WelcomeScreenProps {
 export default function WelcomeScreen({
   onUpload,
   isLoading,
-  mode,
+  // mode,
   setMode,
   uploadedCount,
 }: WelcomeScreenProps) {

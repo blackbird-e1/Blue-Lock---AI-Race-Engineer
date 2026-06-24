@@ -1,0 +1,8 @@
+[33m41a7655[m[33m ([m[1;32mdevelop[m[33m)[m added few buttons and timing
+[33m174026a[m[33m ([m[1;31morigin/develop[m[33m)[m Add F1 Components Explorer and Tyre Intelligence section
+[33mfb4f575[m Added F1 explorer
+[33mf61602f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m changed the main.tsx regarding the dark mode
+[33m044ea2f[m fixed several vercel erros
+[33m0273b5a[m added download button and few other major changes
+[33m34aac41[m added report card and worked on calendar icon
+[33mf917b12[m working on light mode charts
