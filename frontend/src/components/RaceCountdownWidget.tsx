@@ -169,6 +169,19 @@ export default function RaceCountdownWidget() {
         <p className="text-gray-400 text-sm">
         {race.next_session_name}
         </p>
+
+        <p className="text-gray-400 text-sm">
+          {new Date(race.next_session_time_ist).toLocaleString("en-IN", {
+            timeZone: "Asia/Kolkata",
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          })} IST
+
+        </p>
         {/* {race.is_live ? (
             <button
               onClick={() => setShowLiveModal(true)}

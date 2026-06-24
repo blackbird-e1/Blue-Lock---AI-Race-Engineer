@@ -10,6 +10,7 @@ export default function F1TyreExplorer({
   const tyreTopics = [
     {
       title: "Soft Tyre",
+      image: "https://media.formula1.com/image/upload/t_16by9Centre/c_lfill,w_3392/q_auto/v1740000001/fom-website/campaign/projects/beginner's%20guides/GettyImages-2250892187.webp",
       description: "Maximum grip and performance.",
       category: "Compound",
       metric: "+ Grip",
@@ -17,6 +18,7 @@ export default function F1TyreExplorer({
     },
     {
       title: "Medium Tyre",
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Pirelli_Tire_Range_%2852849596009%29.jpg/960px-Pirelli_Tire_Range_%2852849596009%29.jpg",
       description: "Balanced performance and durability.",
       category: "Compound",
       metric: "+ Balance",
@@ -24,46 +26,47 @@ export default function F1TyreExplorer({
     },
     {
       title: "Hard Tyre",
+      image: "https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/content/dam/fom-website/manual/Misc/pirelli-tyres.webp",
       description: "Longest lasting race tyre.",
       category: "Compound",
       metric: "+ Stint Length",
       details: "Less grip but excellent durability.",
     },
-    {
-      title: "Tyre Temperature",
-      description: "Critical for tyre performance.",
-      category: "Management",
-      metric: "90-110°C",
-      details: "Too hot or too cold reduces grip.",
-    },
-    {
-      title: "Tyre Pressure",
-      description: "Affects contact patch and handling.",
-      category: "Setup",
-      metric: "+ Stability",
-      details: "Teams carefully manage tyre pressures.",
-    },
-    {
-      title: "Tyre Wear",
-      description: "Physical wear of tyre rubber.",
-      category: "Management",
-      metric: "- Grip",
-      details: "Excessive wear impacts lap times.",
-    },
-    {
-      title: "Tyre Degradation",
-      description: "Performance loss over time.",
-      category: "Management",
-      metric: "- Pace",
-      details: "One of the biggest race strategy factors.",
-    },
-    {
-      title: "Pit Stop Strategy",
-      description: "Choosing the right tyre at the right time.",
-      category: "Strategy",
-      metric: "+ Race Position",
-      details: "Often decides race outcomes.",
-    },
+    // {
+    //   title: "Tyre Temperature",
+    //   description: "Critical for tyre performance.",
+    //   category: "Management",
+    //   metric: "90-110°C",
+    //   details: "Too hot or too cold reduces grip.",
+    // },
+    // {
+    //   title: "Tyre Pressure",
+    //   description: "Affects contact patch and handling.",
+    //   category: "Setup",
+    //   metric: "+ Stability",
+    //   details: "Teams carefully manage tyre pressures.",
+    // },
+    // {
+    //   title: "Tyre Wear",
+    //   description: "Physical wear of tyre rubber.",
+    //   category: "Management",
+    //   metric: "- Grip",
+    //   details: "Excessive wear impacts lap times.",
+    // },
+    // {
+    //   title: "Tyre Degradation",
+    //   description: "Performance loss over time.",
+    //   category: "Management",
+    //   metric: "- Pace",
+    //   details: "One of the biggest race strategy factors.",
+    // },
+    // {
+    //   title: "Pit Stop Strategy",
+    //   description: "Choosing the right tyre at the right time.",
+    //   category: "Strategy",
+    //   metric: "+ Race Position",
+    //   details: "Often decides race outcomes.",
+    // },
   ];
 
   return (
@@ -102,7 +105,7 @@ export default function F1TyreExplorer({
             category={topic.category}
             metric={topic.metric}
             details={topic.details}
-            image="https://placehold.co/600x400"
+            image={topic.image}
           />
         ))}
       </div>
