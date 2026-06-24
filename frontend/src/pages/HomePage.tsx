@@ -108,7 +108,7 @@ export default function HomePage() {
           <WelcomeScreen
             onUpload={uploadTelemetry}
             isLoading={isUploading}
-            mode={mode}
+            // mode={mode}
             setMode={setMode}
             uploadedCount={uploadedCount}
           />
