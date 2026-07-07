@@ -34,7 +34,7 @@ export default function Header({
         </div>
         <div className="h-5 w-px bg-gray-300 dark:bg-[#2e2e2e]" />
         <span className="text-gray-600 dark:text-gray-400 text-sm font-medium tracking-wide uppercase">
-          Blue Lock
+          Red Scale
         </span>
       </div>
 

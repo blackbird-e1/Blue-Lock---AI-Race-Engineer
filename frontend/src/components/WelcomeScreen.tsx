@@ -114,7 +114,7 @@ export default function WelcomeScreen({
             dark:border-[#2e2e2e]
             hover:border-[#e10600]
             rounded-2xl
-            p-8
+            p-6
             text-left
             transition-all
             "
@@ -147,7 +147,7 @@ export default function WelcomeScreen({
           dark:border-[#2e2e2e]
           hover:border-[#2563eb]
           rounded-2xl
-          p-8
+          p-6
           text-left
           transition-all
           "

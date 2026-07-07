@@ -23,11 +23,11 @@ export default function AboutModal({
 
         <div className="mb-6">
           <h2 className="text-3xl font-bold text-white mb-3">
-            About Blue Lock
+            About Red Scale
           </h2>
 
           <p className="text-gray-400 leading-7">
-            Blue Lock is an AI-powered race engineering platform designed
+            Red Scale is an AI-powered race engineering platform designed
             to help drivers, sim racers, teams, and motorsport analysts
             understand telemetry data instantly.
           </p>
@@ -64,9 +64,9 @@ export default function AboutModal({
             </h3>
 
             <p className="text-gray-400 leading-7">
-              Email: your@email.com
+              Email: bluelock.sr71@gmail.com
               <br />
-              LinkedIn: linkedin.com/in/yourprofile
+              Website: https://blackbird-ml.vercel.app/
             </p>
           </div>
         </div>

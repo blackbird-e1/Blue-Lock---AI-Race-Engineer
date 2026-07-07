@@ -55,7 +55,7 @@ async def parse_ibt(
         dataframe["sector"] = 0
 
         # iRacing stores throttle/brake as ratios (0.0-1.0)
-        # Blue Lock expects percentages (0-100)
+        # Red Scale expects percentages (0-100)
         dataframe["throttle"] *= 100
         dataframe["brake"] *= 100
 
